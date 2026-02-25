@@ -33,9 +33,9 @@ Submitted to *Nature Climate Change* (2026)
 This repository contains the code and processed data required to reproduce the main results and figures presented in the manuscript.
 
 The project investigates:
-- [1–2 sentence summary of scientific question]
-- [Key contribution]
-- [Main methodological approach]
+- How drought indicators used in water management must adapt under climate change to remain effective in triggering response actions.
+- Its key contribution is a simulation–optimization framework that jointly designs drought indicators and management responses to maximize water supply reliability while minimizing economic cost impacts under future climate scenarios.
+- The approach integrates a river-basin simulation using a PYWR model of Chile’s Maipo Basin and multi-objective optimization (Borg MOEA) to evaluate alternative drought indicator performance in drought plans across plausible climate futures.
 
 ---
 
