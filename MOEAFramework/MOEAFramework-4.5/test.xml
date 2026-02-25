@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2009-2024 David Hadka
+
+This file is part of the MOEA Framework.
+
+The MOEA Framework is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or (at your 
+option) any later version.
+
+The MOEA Framework is distributed in the hope that it will be useful, but 
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public 
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License 
+along with the MOEA Framework.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+Use of these build scripts requires Apache Ant to be installed.  See
+<http://ant.apache.org/> for instructions on installing Apache Ant.
+-->
+<project name="MOEA Framework Testing" basedir="." default="test" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	
+	<import file="src/macros.xml" />
+
+	<!-- Loads properties from properties file and environment -->
+	<property file="META-INF/build.properties" />
+	<property environment="env" />
+	<property runtime="runtime" />
+
+	<!-- The working folder for these Ant build targets -->
+	<property name="build" value="build" />
+
+	<!-- The folder where compiled files ready for distribution are saved -->
+	<property name="dist" value="dist" />
+
+	<!-- The folder where JUnit test results are saved -->
+	<property name="results" value="test-results" />
+
+	<!-- Classpath of third-party libraries used by the MOEA Framework -->
+	<path id="classpath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
+
+	<!-- List of files required in every distribution -->
+	<path id="requiredfiles">
+		<fileset file="README.md" />
+		<fileset file="COPYING" />
+	</path>
+
+	<!-- Calls the build-binary target in build.xml to compile the MOEA Framework -->
+	<target name="build-binary">
+		<ant target="build-binary" />
+	</target>
+
+	<!-- Displays message and fails build if JUnit is not available -->
+	<target name="check-junit">
+		<available classname="org.junit.Assert" classpathref="classpath" property="junit.exists" />
+		
+		<sequential unless:true="${junit.exists}">
+			<echo>==================================================================</echo>
+			<echo> The JUnit library is missing from your classpath.  Please</echo>
+			<echo> download the latest JUnit 4 library from http://www.junit.org/</echo>
+			<echo> or using the download-junit Ant target.</echo>
+			<echo>==================================================================</echo>
+	
+			<fail message="JUnit library missing"/>
+		</sequential>
+	</target>
+	
+	<!-- Downloads test libraries.  These should not be included in any release. -->
+	<target name="download-all" depends="download-junit,download-jfreesvg,download-nashorn,download-jmetal-plugin"
+		description="Download all test dependencies to the lib folder" />
+	
+	<target name="download-junit">
+		<secure-get src="${junit.url}" dest="lib/junit-${junit.version}.jar" sha1="${junit.sha1}" />
+		<secure-get src="${hamcrest.url}" dest="lib/hamcrest-${hamcrest.version}.jar" sha1="${hamcrest.sha1}" />
+	</target>
+	
+	<target name="download-jfreesvg">
+		<secure-get src="${jfreesvg.url}" dest="lib/jfreesvg-${jfreesvg.version}.jar" sha1="${jfreesvg.sha1}" />
+	</target>
+	
+	<target name="download-nashorn">
+		<condition property="nashorn.supported">
+			<javaversion atleast="11" />
+		</condition>
+		
+		<echo unless:true="${nashorn.supported}">Nashorn requires Java >= 11. Skipping download!</echo>
+		
+		<sequential if:true="${nashorn.supported}">
+			<secure-get src="${asm.url}" dest="lib/asm-${asm.version}.jar" sha1="${asm.sha1}" />
+			<secure-get src="${asm-commons.url}" dest="lib/asm-commons-${asm-commons.version}.jar" sha1="${asm-commons.sha1}" />
+			<secure-get src="${asm-tree.url}" dest="lib/asm-tree-${asm-tree.version}.jar" sha1="${asm-tree.sha1}" />
+			<secure-get src="${asm-util.url}" dest="lib/asm-util-${asm-util.version}.jar" sha1="${asm-util.sha1}" />
+			<secure-get src="${nashorn-core.url}" dest="lib/nashorn-core-${nashorn-core.version}.jar" sha1="${nashorn-core.sha1}" />
+		</sequential>
+	</target>
+	
+	<target name="download-jmetal-plugin">
+		<condition property="jmetal-plugin.supported">
+			<javaversion atleast="17" />
+		</condition>
+
+		<echo unless:true="${jmetal-plugin.supported}">jmetal-plugin requires Java >= 17. Skipping download!</echo>
+		
+		<sequential if:true="${jmetal-plugin.supported}">
+			<secure-get src="${jmetal-plugin.url}" dest="lib/jmetal-plugin-${jmetal-plugin.version}-jar-with-dependencies.jar"
+				sha1="${jmetal-plugin.sha1}" />
+		</sequential>
+	</target>
+
+	<!-- Builds the MOEA Framework Test JAR -->
+	<target name="build-tests" depends="build-binary,check-junit">
+		<delete dir="${build}" />
+		<mkdir dir="${build}" />
+
+		<javac destdir="${build}" debug="${java.debug}" release="${java.major}" includeantruntime="false"
+				encoding="UTF-8">
+			<src path="test" />
+			<src path="examples" />
+			<classpath>
+				<path refid="classpath" />
+				<pathelement location="${dist}/${shortname}-${version}.jar" />
+			</classpath>
+		</javac>
+
+		<copy todir="${build}">
+			<fileset excludes="**/*.java" dir="test" />
+		</copy>
+
+		<copy todir="${build}/META-INF">
+			<path refid="requiredfiles" />
+		</copy>
+
+		<jar basedir="${build}" jarfile="${dist}/${shortname}-${version}-Test.jar" />
+	</target>
+
+	<!-- The main test target, running all JUnit tests and displaying the results -->
+	<target name="test" depends="build-tests" description="Run the unit tests">
+		<delete dir="${results}" />
+		<mkdir dir="${results}" />
+		<mkdir dir="${results}/raw" />
+
+		<junit haltonfailure="false" tempdir="${results}/raw" errorproperty="junit.failure"
+				failureproperty="junit.failure" fork="true" threads="${runtime.availableProcessors}">
+			<classpath>
+				<fileset file="${dist}/${shortname}-${version}.jar" />
+				<fileset file="${dist}/${shortname}-${version}-Test.jar" />
+				<path refid="classpath" />
+			</classpath>
+			<batchtest todir="${results}/raw">
+				<formatter type="xml" />
+				<zipfileset src="${dist}/${shortname}-${version}-Test.jar">
+					<include name="**/*Test.class" />
+					
+					<!-- exclude abstract classes without tests -->
+					<exclude name="org/moeaframework/algorithm/AlgorithmTest.class" />
+					<exclude name="org/moeaframework/algorithm/JMetalAlgorithmTest.class" />
+					<exclude name="org/moeaframework/algorithm/single/AbstractSingleObjectiveAlgorithmTest.class" />
+					<exclude name="org/moeaframework/analysis/collector/AbstractCollectorTest.class" />
+					<exclude name="org/moeaframework/problem/ProblemTest.class" />
+					<exclude name="org/moeaframework/problem/WFG/WFGTest.class" />
+					<exclude name="org/moeaframework/core/indicator/AbstractHypervolumeTest.class" />
+					<exclude name="org/moeaframework/core/indicator/AbstractIndicatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractBinaryOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractGrammarOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractPermutationOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractPointCrossoverTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractProgramOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/AbstractSubsetOperatorTest.class" />
+					<exclude name="org/moeaframework/core/operator/DistributionVariationTest.class" />
+					<exclude name="org/moeaframework/core/operator/MeanCentricVariationTest.class" />
+					<exclude name="org/moeaframework/core/operator/ParentCentricVariationTest.class" />
+					<exclude name="org/moeaframework/core/spi/AbstractFactoryTest.class" />
+					<exclude name="org/moeaframework/parallel/island/AbstractIslandModelTest.class" />
+					<exclude name="org/moeaframework/parallel/island/topology/AbstractTopologyTest.class" />
+					<exclude name="org/moeaframework/util/LocalizationTest.class" />
+					<exclude name="org/moeaframework/util/sequence/AbstractSequenceTest.class" />
+					<exclude name="org/moeaframework/util/weights/AbstractWeightGeneratorTest.class" />
+				</zipfileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+			<formatter type="plain" />
+		</junit>
+
+		<junitreport todir="${results}">
+			<fileset dir="${results}/raw">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${results}"/>
+		</junitreport>
+		
+		<sequential if:true="${junit.failure}">
+			<echo>==================================================================</echo>
+			<echo> One or more unit tests failed!  Open test-results/index.html to</echo>
+			<echo> see which tests failed.</echo>
+			<echo>
+			</echo>
+			<echo> Note: due to the stochastic nature of the MOEA Framework, there</echo>
+			<echo> is a small chance that some correct tests will fail.  Please</echo>
+			<echo> repeat the tests prior to notifying the developers.</echo>
+			<echo>==================================================================</echo>
+
+			<fail message="Unit test(s) failed.  See reports!"/>
+		</sequential>
+	</target>
+	
+</project>
