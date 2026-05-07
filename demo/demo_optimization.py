@@ -86,9 +86,6 @@ def evaluate_policy(contract_threshold_val, contract_action_val, demand_threshol
         data_folder=CONFIG["data_folder"],
     )
 
-    model.check()
-    model.check_graph()
-    model.find_orphaned_parameters()
     model.run()
 
     def get_performance(recorder_name):
