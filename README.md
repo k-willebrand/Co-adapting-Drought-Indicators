@@ -221,7 +221,7 @@ You should see:
   - `.runtime` (optimization progress)
   - `.set` (Pareto solution sets)
 
-Exact results may vary slightly depending on random seeds utilized. You can choose to post-process the results using MOEAFramework. A quick start description of computing performance metrics (e.g., hypervolume) using MOEA Framework can be found in section 4 of this blog post: https://waterprogramming.wpcomstaging.com/2025/02/19/everything-you-need-to-run-borg-moea-and-python-wrapper-part-2/#4-streamlined-tools-for-computing-performance-metrics-eg-hypervolume-using-moeaframework. This involves 
+Exact results may vary slightly depending on random seeds utilized. You can choose to post-process the results using MOEAFramework. A quick start description of computing performance metrics (e.g., hypervolume) using MOEA Framework can be found in section 4 of this blog post: https://waterprogramming.wpcomstaging.com/2025/02/19/everything-you-need-to-run-borg-moea-and-python-wrapper-part-2/#4-streamlined-tools-for-computing-performance-metrics-eg-hypervolume-using-moeaframework.
 
 ---
 
