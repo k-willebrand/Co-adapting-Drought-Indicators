@@ -1,0 +1,5 @@
+Sep16 OOS Figure 5 method
+
+All unique policies contained in each completed Sep16 OOS cache are used. For every period, indicator, and scenario, the minimum total cost, maximum urban reliability, and maximum agricultural reliability are calculated independently across policies. Thus, the policy attaining the best value may differ among objectives and scenarios. The resulting scenario-level best values are then averaged within each climate group.
+
+Climate groups are based on the shifted final-20-year temperature, precipitation, streamflow, and glacier-melt metrics. Scenarios are sorted ascending by metric value and then scenario name. Ranks 1-27 form Q1 (low) and ranks 82-108 form Q4 (high). The same end-of-century groups are applied to both the 2020-2040 and 2080-2100 performance columns. Scenario matching is by name, not column position. No model simulation or optimization is rerun.

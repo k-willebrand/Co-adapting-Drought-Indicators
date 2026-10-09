@@ -1,0 +1,7 @@
+indicator,eligible_policy_count,total_policy_count,mean_cost_cap_million,eligibility_rule
+SPI3,321,794,5000.0,108-scenario mean total cost <= cap
+SPI6,326,800,5000.0,108-scenario mean total cost <= cap
+SPI12,316,738,5000.0,108-scenario mean total cost <= cap
+SRI3,410,1630,5000.0,108-scenario mean total cost <= cap
+SRI6,406,1674,5000.0,108-scenario mean total cost <= cap
+SRI12,407,1795,5000.0,108-scenario mean total cost <= cap

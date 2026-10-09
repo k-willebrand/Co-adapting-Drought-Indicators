@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "figure_size_pt": [
+    756.0,
+    309.59999999999997
+  ],
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "id": "panel_1",
+      "left": 39.620000000000005,
+      "bottom": 34.040000000000006,
+      "right": 747.3599999999998,
+      "top": 287.76,
+      "width": 707.7399999999998,
+      "height": 253.72
+    }
+  ],
+  "deviations_pt": {},
+  "verdict": "NOT APPLICABLE"
+}

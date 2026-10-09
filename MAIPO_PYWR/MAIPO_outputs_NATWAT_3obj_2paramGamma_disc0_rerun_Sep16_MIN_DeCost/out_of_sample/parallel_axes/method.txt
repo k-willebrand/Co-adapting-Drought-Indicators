@@ -1,0 +1,10 @@
+Sep16 OOS parallel-axis method
+
+Each line represents a policy retained on an indicator-period-specific OOS
+Pareto set. For every policy, total cost, urban reliability, and agricultural
+reliability are first averaged across all 108 OOS climate scenarios. The OOS
+Pareto mask minimizes mean total cost and maximizes both mean reliabilities.
+No temperature, precipitation, glacier-melt, streamflow, or other climate
+subgroup is used. Total cost is shown in M$ and its normalized parallel axis is
+reversed so that better performance is upward on all three axes. The plotting
+workflow reads completed caches and does not rerun Pywr or Borg.

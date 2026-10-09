@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "figure_size_pt": [
+    1044.0,
+    590.4
+  ],
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "id": "panel_1",
+      "row": 0,
+      "column": 0,
+      "left": 93.96,
+      "bottom": 306.79524324324325,
+      "right": 357.9091525423729,
+      "top": 519.552,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    },
+    {
+      "id": "panel_2",
+      "row": 0,
+      "column": 1,
+      "left": 429.1754237288136,
+      "bottom": 306.79524324324325,
+      "right": 693.1245762711865,
+      "top": 519.552,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    },
+    {
+      "id": "panel_3",
+      "row": 0,
+      "column": 2,
+      "left": 764.3908474576272,
+      "bottom": 306.79524324324325,
+      "right": 1028.3400000000001,
+      "top": 519.552,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    },
+    {
+      "id": "panel_4",
+      "row": 1,
+      "column": 0,
+      "left": 93.96,
+      "bottom": 47.23200000000004,
+      "right": 357.9091525423729,
+      "top": 259.9887567567568,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    },
+    {
+      "id": "panel_5",
+      "row": 1,
+      "column": 1,
+      "left": 429.1754237288136,
+      "bottom": 47.23200000000004,
+      "right": 693.1245762711865,
+      "top": 259.9887567567568,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    },
+    {
+      "id": "panel_6",
+      "row": 1,
+      "column": 2,
+      "left": 764.3908474576272,
+      "bottom": 47.23200000000004,
+      "right": 1028.3400000000001,
+      "top": 259.9887567567568,
+      "width": 263.94915254237293,
+      "height": 212.75675675675674
+    }
+  ],
+  "deviations_pt": {
+    "row_0_top": 0.0,
+    "row_0_bottom": 0.0,
+    "row_0_width": 0.0,
+    "row_0_height": 0.0,
+    "row_1_top": 0.0,
+    "row_1_bottom": 0.0,
+    "row_1_width": 0.0,
+    "row_1_height": 0.0,
+    "column_0_left": 0.0,
+    "column_0_right": 0.0,
+    "column_0_width": 0.0,
+    "column_0_height": 0.0,
+    "column_1_left": 0.0,
+    "column_1_right": 0.0,
+    "column_1_width": 0.0,
+    "column_1_height": 0.0,
+    "column_2_left": 0.0,
+    "column_2_right": 0.0,
+    "column_2_width": 0.0,
+    "column_2_height": 0.0
+  },
+  "verdict": "PASS"
+}

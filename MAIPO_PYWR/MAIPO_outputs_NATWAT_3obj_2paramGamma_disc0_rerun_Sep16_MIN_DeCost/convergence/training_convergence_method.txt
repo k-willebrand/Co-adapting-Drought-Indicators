@@ -1,0 +1,8 @@
+Sep16 main-analysis training convergence
+
+Design: 6 indicators x 2 periods x 7 independent seeds = 84 optimization runs.
+Function evaluations: 8000 per seed; 672000 across all runs.
+
+Each Borg runtime archive is converted to three minimization objectives: total cost in million USD, urban unreliability (1 - reliability), and agricultural unreliability (1 - reliability). One global ideal point and one global reference point are calculated from all saved archives across all 84 runs. The reference is the global observed worst point plus a 0.05 fraction of the observed objective span. Hypervolume is calculated exactly after normalization, using [1, 1, 1] as the normalized reference point.
+
+Each panel shows all seven individual seed trajectories. Seed identity is encoded by seven distinct colours that are held constant across every indicator and both periods. No median, percentile shading, smoothing, or monotonicity correction is applied.

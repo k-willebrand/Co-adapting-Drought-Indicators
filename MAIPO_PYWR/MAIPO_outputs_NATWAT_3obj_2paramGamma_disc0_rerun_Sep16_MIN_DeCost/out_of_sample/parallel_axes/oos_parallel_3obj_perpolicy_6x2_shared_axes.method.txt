@@ -1,0 +1,17 @@
+OOS parallel-axis method
+
+Policy run: sep16_decost
+
+Each line represents a policy retained on an indicator-period-specific OOS
+Pareto set. For every policy, total cost, urban reliability, and agricultural
+reliability are first averaged across all 108 OOS climate scenarios. The OOS
+Pareto mask minimizes mean total cost and maximizes both mean reliabilities.
+No temperature, precipitation, glacier-melt, streamflow, or other climate
+subgroup is used. Total cost is shown in M$ and its normalized parallel axis is
+reversed so that better performance is upward on all three axes. The plotting
+workflow reads completed caches and does not rerun Pywr or Borg.
+When requested, the additional 6x2 per-policy grid uses one row per drought
+indicator and one column per period. All 12 panels share the global OOS-Pareto
+cost range; urban reliability is displayed from 0.7 to 1.0 and agricultural
+reliability from 0.290 to 0.611. Values outside those requested display bounds are
+reported in the companion scale JSON and clipped only in the figure.

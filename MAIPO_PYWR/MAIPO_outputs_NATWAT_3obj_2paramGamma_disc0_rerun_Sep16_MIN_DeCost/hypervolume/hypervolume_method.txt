@@ -1,0 +1,31 @@
+Normalized global 3-D hypervolume method
+
+Policy run: sep16_decost (discount rate = 0)
+Training results: /home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost
+OOS caches: /home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache
+Datasets included: training, oos
+Groups included in shared bounds: 24
+Indicators: 6; periods: 2
+Training seeds pooled per group: 7
+OOS scenarios averaged per policy: 108
+
+For training, objective values are read from all seven Borg .set archives in
+each indicator-period experiment. For OOS, each policy's urban reliability,
+agricultural reliability, and total cost are averaged over the 108 test
+scenarios in its completed NPZ cache.
+
+All objectives are converted to minimization form: cost in million dollars,
+urban unreliability (1 - reliability), and agricultural unreliability
+(1 - reliability). Duplicate objective vectors are removed within each group,
+then that group's three-objective non-dominated front is retained.
+
+One global ideal and one global worst-observed point are calculated across all
+24 selected group fronts. The raw reference is the global worst point
+plus a 0.05 (5%) margin in every objective. Every front
+uses these same bounds, making the normalized reference [1, 1, 1]. The exact
+3-D hypervolume is the union of the axis-aligned boxes from each non-dominated
+point to [1, 1, 1]. Values lie in [0, 1], and larger is better. When both
+datasets are selected, training and OOS values are therefore directly
+comparable because all 24 groups share the same normalization and reference.
+
+Detected training raw sign conversion flags: {'urban_reliability_raw_negated': [True], 'agricultural_reliability_raw_negated': [True], 'total_cost_raw_negated': [False]}

@@ -1,0 +1,4 @@
+classification_method,winner_family,scenario_count,scenario_fraction
+highest_urban_mean_cost_le_5000M,SPI,17,0.1574074074074074
+highest_urban_mean_cost_le_5000M,SRI,54,0.5
+highest_urban_mean_cost_le_5000M,Tie,37,0.3425925925925926

@@ -1,0 +1,21 @@
+Period-B SPI/SRI classification with a mean-cost cap
+
+The source policies and scenario performance come from the completed Sep16
+Period-B OOS caches. For each indicator, a policy is eligible only when its
+total cost averaged across all 108 OOS scenarios is no greater than
+5000 M$. This eligibility set is fixed before scenarios
+are classified.
+
+For each scenario and indicator, the eligible policy with the highest urban
+reliability is selected. Reliability ties are resolved deterministically by
+lower scenario-specific total cost, higher agricultural reliability, the
+lexicographically smaller decision vector, and source policy index. The largest
+urban reliability among SPI3/SPI6/SPI12 is then compared directly with the
+largest among SRI3/SRI6/SRI12. Only a strictly larger family value produces an
+SPI or SRI assignment. Exact equality is recorded as Tie and excluded from the
+violin panels.
+
+Temperature, precipitation, glacier-melt, and streamflow percentile ranks use
+the same final-20-year metrics and name-based scenario matching as the original
+Sep16 violin analysis. No Pywr simulation is rerun and no scenario is dropped
+from the classification table.

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "figure_size_pt": [
+    576.0,
+    475.2
+  ],
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "id": "Q1",
+      "left": 31.68,
+      "bottom": 241.1588571428571,
+      "right": 284.3592452830188,
+      "top": 394.416,
+      "width": 252.67924528301884,
+      "height": 153.25714285714287
+    },
+    {
+      "id": "Q2",
+      "left": 314.68075471698114,
+      "bottom": 241.1588571428571,
+      "right": 567.36,
+      "top": 394.416,
+      "width": 252.67924528301884,
+      "height": 153.25714285714287
+    },
+    {
+      "id": "Q3",
+      "left": 31.68,
+      "bottom": 40.39199999999993,
+      "right": 284.3592452830188,
+      "top": 193.6491428571428,
+      "width": 252.67924528301884,
+      "height": 153.2571428571429
+    },
+    {
+      "id": "Q4",
+      "left": 314.68075471698114,
+      "bottom": 40.39199999999993,
+      "right": 567.36,
+      "top": 193.6491428571428,
+      "width": 252.67924528301884,
+      "height": 153.2571428571429
+    }
+  ],
+  "deviations_pt": {
+    "max_width_difference": 0.0,
+    "max_height_difference": 2.842170943040401e-14,
+    "top_row_top_difference": 0.0,
+    "bottom_row_bottom_difference": 0.0,
+    "left_column_left_difference": 0.0,
+    "right_column_right_difference": 0.0
+  },
+  "verdict": "PASS"
+}

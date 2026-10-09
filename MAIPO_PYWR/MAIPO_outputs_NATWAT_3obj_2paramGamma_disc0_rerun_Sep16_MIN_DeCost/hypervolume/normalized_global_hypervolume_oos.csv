@@ -1,0 +1,13 @@
+dataset,indicator,period,source,seed_count,scenario_count,pooled_policy_count,unique_objective_count,pareto_policy_count,normalized_hypervolume
+oos,SPI3,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI3_A_oos_performance.npz,,108,538,538,274,0.723240398707781
+oos,SPI3,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI3_B_oos_performance.npz,,108,794,794,522,0.7066756509427012
+oos,SPI6,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI6_A_oos_performance.npz,,108,601,601,354,0.7412099212093786
+oos,SPI6,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI6_B_oos_performance.npz,,108,800,799,554,0.7285577694529587
+oos,SPI12,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI12_A_oos_performance.npz,,108,522,522,336,0.775647568891515
+oos,SPI12,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SPI12_B_oos_performance.npz,,108,738,737,524,0.7295888716716148
+oos,SRI3,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI3_A_oos_performance.npz,,108,493,493,303,0.7294668851813874
+oos,SRI3,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI3_B_oos_performance.npz,,108,1630,1629,643,0.7653122746333526
+oos,SRI6,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI6_A_oos_performance.npz,,108,398,398,228,0.7241898433045657
+oos,SRI6,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI6_B_oos_performance.npz,,108,1674,1674,805,0.7601855239896851
+oos,SRI12,A,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI12_A_oos_performance.npz,,108,390,390,215,0.6722590800347632
+oos,SRI12,B,/home/groups/smfletch/keaniw/MAIPO_PYWR/MAIPO_outputs_NATWAT_3obj_2paramGamma_disc0_rerun_Sep16_MIN_DeCost/out_of_sample/simulation_cache/SRI12_B_oos_performance.npz,,108,1795,1795,738,0.7642311515380918

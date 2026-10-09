@@ -1,0 +1,3 @@
+indicator,selection_period,source_policy_index,contract_threshold,contract_action,demand_threshold,demand_action,oos_mean_total_cost,oos_mean_urban_reliability,oos_mean_agricultural_reliability
+SPI12,A,264,0.0,1111.0703628536014,0.0,0.7,6901009477.807854,0.989166399829224,0.4218255238908457
+SRI12,B,477,-0.0033627942256115873,2072.8518081624015,0.0,0.7000888237888778,9096643893.232738,0.9526007756074999,0.3419432881488597

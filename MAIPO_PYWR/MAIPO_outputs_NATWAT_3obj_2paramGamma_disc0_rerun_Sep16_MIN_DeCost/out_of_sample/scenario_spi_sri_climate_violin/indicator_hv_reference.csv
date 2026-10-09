@@ -1,0 +1,5 @@
+point,cost_million,urban_unreliability,agricultural_unreliability,reference_margin
+ideal,0.13441491249999998,0.0,0.0,0.1
+worst_observed,9701.082430903025,0.7137367915465899,1.0,0.1
+raw_reference,10671.177232502077,0.7851104707012488,1.1,0.1
+normalized_reference,1.0,1.0,1.0,0.1

@@ -1,0 +1,28 @@
+{
+  "cost_million_bounds": [
+    2.5305076126787895,
+    9111.103034946089
+  ],
+  "urban_reliability_display_bounds": [
+    0.7,
+    1.0
+  ],
+  "agricultural_reliability_display_bounds": [
+    0.29,
+    0.611
+  ],
+  "actual_urban_reliability_range": [
+    0.7563774148788558,
+    0.989166399829224
+  ],
+  "actual_agricultural_reliability_range": [
+    0.2902568755114385,
+    0.6100348667591704
+  ],
+  "urban_below_display_range": 0,
+  "urban_above_display_range": 0,
+  "agriculture_below_display_range": 0,
+  "agriculture_above_display_range": 0,
+  "policy_count": 5499,
+  "note": "Values outside the requested reliability display bounds are clipped visually at the panel boundary; source values are unchanged."
+}

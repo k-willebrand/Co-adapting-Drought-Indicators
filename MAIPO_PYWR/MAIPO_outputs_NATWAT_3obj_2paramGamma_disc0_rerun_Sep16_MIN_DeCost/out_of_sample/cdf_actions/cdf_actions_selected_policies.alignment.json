@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "figure_size_pt": [
+    972.0,
+    612.0
+  ],
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "id": "panel_0_0",
+      "row": 0,
+      "column": 0,
+      "left": 39.62,
+      "bottom": 283.7696039603961,
+      "right": 493.74,
+      "top": 491.34000000000015,
+      "width": 454.11999999999995,
+      "height": 207.57039603960402
+    },
+    {
+      "id": "panel_0_1",
+      "row": 0,
+      "column": 1,
+      "left": 509.24,
+      "bottom": 283.7696039603961,
+      "right": 963.36,
+      "top": 491.34000000000015,
+      "width": 454.12000000000006,
+      "height": 207.57039603960402
+    },
+    {
+      "id": "panel_1_0",
+      "row": 1,
+      "column": 0,
+      "left": 39.62,
+      "bottom": 34.04,
+      "right": 493.74,
+      "top": 241.61039603960407,
+      "width": 454.11999999999995,
+      "height": 207.57039603960405
+    },
+    {
+      "id": "panel_1_1",
+      "row": 1,
+      "column": 1,
+      "left": 509.24,
+      "bottom": 34.04,
+      "right": 963.36,
+      "top": 241.61039603960407,
+      "width": 454.12000000000006,
+      "height": 207.57039603960405
+    }
+  ],
+  "deviations_pt": {
+    "row_0_top": 0.0,
+    "row_0_bottom": 0.0,
+    "row_0_width": 1.1368683772161603e-13,
+    "row_0_height": 0.0,
+    "row_1_top": 0.0,
+    "row_1_bottom": 0.0,
+    "row_1_width": 1.1368683772161603e-13,
+    "row_1_height": 0.0,
+    "column_0_left": 0.0,
+    "column_0_right": 0.0,
+    "column_0_width": 0.0,
+    "column_0_height": 2.842170943040401e-14,
+    "column_1_left": 0.0,
+    "column_1_right": 0.0,
+    "column_1_width": 0.0,
+    "column_1_height": 2.842170943040401e-14
+  },
+  "verdict": "PASS"
+}

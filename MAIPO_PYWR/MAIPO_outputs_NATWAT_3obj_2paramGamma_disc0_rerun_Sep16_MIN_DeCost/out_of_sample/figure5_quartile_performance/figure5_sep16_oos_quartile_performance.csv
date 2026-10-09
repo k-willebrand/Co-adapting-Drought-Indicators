@@ -1,0 +1,289 @@
+objective,objective_direction,period,period_label,indicator,climate_code,climate_variable,climate_tail,quartile,scenario_count,mean_scenario_best_performance
+cost,min,A,2020–2040,SRI3,T,Temperature,low,Q1,27,4.674361272943349
+cost,min,A,2020–2040,SRI3,T,Temperature,high,Q4,27,5.533411677402638
+cost,min,A,2020–2040,SRI3,P,Precipitation,low,Q1,27,5.061481694975355
+cost,min,A,2020–2040,SRI3,P,Precipitation,high,Q4,27,4.9583004585805766
+cost,min,A,2020–2040,SRI3,S,Streamflow,low,Q1,27,5.893326639180606
+cost,min,A,2020–2040,SRI3,S,Streamflow,high,Q4,27,4.458566045637358
+cost,min,A,2020–2040,SRI3,G,Glacier melt,low,Q1,27,6.305483215119166
+cost,min,A,2020–2040,SRI3,G,Glacier melt,high,Q4,27,4.3590077960065265
+cost,min,A,2020–2040,SRI6,T,Temperature,low,Q1,27,1.5148755240913683
+cost,min,A,2020–2040,SRI6,T,Temperature,high,Q4,27,0.7447114084272779
+cost,min,A,2020–2040,SRI6,P,Precipitation,low,Q1,27,0.7542017042381814
+cost,min,A,2020–2040,SRI6,P,Precipitation,high,Q4,27,2.103376941342955
+cost,min,A,2020–2040,SRI6,S,Streamflow,low,Q1,27,1.1904380503769647
+cost,min,A,2020–2040,SRI6,S,Streamflow,high,Q4,27,1.5148755240913683
+cost,min,A,2020–2040,SRI6,G,Glacier melt,low,Q1,27,1.1904380503769647
+cost,min,A,2020–2040,SRI6,G,Glacier melt,high,Q4,27,1.5148755240913683
+cost,min,A,2020–2040,SRI12,T,Temperature,low,Q1,27,12.91593439263917
+cost,min,A,2020–2040,SRI12,T,Temperature,high,Q4,27,15.416986666789828
+cost,min,A,2020–2040,SRI12,P,Precipitation,low,Q1,27,14.308872509121995
+cost,min,A,2020–2040,SRI12,P,Precipitation,high,Q4,27,13.43875828901647
+cost,min,A,2020–2040,SRI12,S,Streamflow,low,Q1,27,15.818197778674445
+cost,min,A,2020–2040,SRI12,S,Streamflow,high,Q4,27,12.16224326836399
+cost,min,A,2020–2040,SRI12,G,Glacier melt,low,Q1,27,16.830357012494932
+cost,min,A,2020–2040,SRI12,G,Glacier melt,high,Q4,27,11.887280607746712
+cost,min,A,2020–2040,SPI3,T,Temperature,low,Q1,27,6.051148892504227
+cost,min,A,2020–2040,SPI3,T,Temperature,high,Q4,27,6.04138205475113
+cost,min,A,2020–2040,SPI3,P,Precipitation,low,Q1,27,5.12600910138717
+cost,min,A,2020–2040,SPI3,P,Precipitation,high,Q4,27,5.323228012027124
+cost,min,A,2020–2040,SPI3,S,Streamflow,low,Q1,27,5.196849870127571
+cost,min,A,2020–2040,SPI3,S,Streamflow,high,Q4,27,6.198028881008067
+cost,min,A,2020–2040,SPI3,G,Glacier melt,low,Q1,27,5.206034597293337
+cost,min,A,2020–2040,SPI3,G,Glacier melt,high,Q4,27,6.010340636538068
+cost,min,A,2020–2040,SPI6,T,Temperature,low,Q1,27,4.164380297204002
+cost,min,A,2020–2040,SPI6,T,Temperature,high,Q4,27,6.65947205056461
+cost,min,A,2020–2040,SPI6,P,Precipitation,low,Q1,27,5.840121395630522
+cost,min,A,2020–2040,SPI6,P,Precipitation,high,Q4,27,5.779114944697652
+cost,min,A,2020–2040,SPI6,S,Streamflow,low,Q1,27,5.68659112903037
+cost,min,A,2020–2040,SPI6,S,Streamflow,high,Q4,27,4.499288398675623
+cost,min,A,2020–2040,SPI6,G,Glacier melt,low,Q1,27,6.028205363477464
+cost,min,A,2020–2040,SPI6,G,Glacier melt,high,Q4,27,4.1875517586391044
+cost,min,A,2020–2040,SPI12,T,Temperature,low,Q1,27,9.590287508746382
+cost,min,A,2020–2040,SPI12,T,Temperature,high,Q4,27,14.726892739839592
+cost,min,A,2020–2040,SPI12,P,Precipitation,low,Q1,27,12.26279201212953
+cost,min,A,2020–2040,SPI12,P,Precipitation,high,Q4,27,12.59769482051906
+cost,min,A,2020–2040,SPI12,S,Streamflow,low,Q1,27,14.283511929367036
+cost,min,A,2020–2040,SPI12,S,Streamflow,high,Q4,27,9.492662898383307
+cost,min,A,2020–2040,SPI12,G,Glacier melt,low,Q1,27,15.047716761604429
+cost,min,A,2020–2040,SPI12,G,Glacier melt,high,Q4,27,9.16198475562024
+cost,min,B,2080–2100,SRI3,T,Temperature,low,Q1,27,0.13441491249999998
+cost,min,B,2080–2100,SRI3,T,Temperature,high,Q4,27,13.872010616807163
+cost,min,B,2080–2100,SRI3,P,Precipitation,low,Q1,27,15.231098666125035
+cost,min,B,2080–2100,SRI3,P,Precipitation,high,Q4,27,3.6413134876685
+cost,min,B,2080–2100,SRI3,S,Streamflow,low,Q1,27,14.568173331264845
+cost,min,B,2080–2100,SRI3,S,Streamflow,high,Q4,27,0.13441491249999998
+cost,min,B,2080–2100,SRI3,G,Glacier melt,low,Q1,27,13.98791137871906
+cost,min,B,2080–2100,SRI3,G,Glacier melt,high,Q4,27,0.13441491249999998
+cost,min,B,2080–2100,SRI6,T,Temperature,low,Q1,27,1.038507094863501
+cost,min,B,2080–2100,SRI6,T,Temperature,high,Q4,27,16.447684787514298
+cost,min,B,2080–2100,SRI6,P,Precipitation,low,Q1,27,19.672676300290888
+cost,min,B,2080–2100,SRI6,P,Precipitation,high,Q4,27,4.6532520351093565
+cost,min,B,2080–2100,SRI6,S,Streamflow,low,Q1,27,18.28350658877337
+cost,min,B,2080–2100,SRI6,S,Streamflow,high,Q4,27,0.7271258111647875
+cost,min,B,2080–2100,SRI6,G,Glacier melt,low,Q1,27,17.26170795821581
+cost,min,B,2080–2100,SRI6,G,Glacier melt,high,Q4,27,1.2204894040783656
+cost,min,B,2080–2100,SRI12,T,Temperature,low,Q1,27,0.13441491249999998
+cost,min,B,2080–2100,SRI12,T,Temperature,high,Q4,27,12.440000796415612
+cost,min,B,2080–2100,SRI12,P,Precipitation,low,Q1,27,14.809125662955122
+cost,min,B,2080–2100,SRI12,P,Precipitation,high,Q4,27,1.1186359656783915
+cost,min,B,2080–2100,SRI12,S,Streamflow,low,Q1,27,13.512799957621398
+cost,min,B,2080–2100,SRI12,S,Streamflow,high,Q4,27,0.13441491249999998
+cost,min,B,2080–2100,SRI12,G,Glacier melt,low,Q1,27,13.116314475404927
+cost,min,B,2080–2100,SRI12,G,Glacier melt,high,Q4,27,0.13441491249999998
+cost,min,B,2080–2100,SPI3,T,Temperature,low,Q1,27,8.976034528065057
+cost,min,B,2080–2100,SPI3,T,Temperature,high,Q4,27,11.330689470467128
+cost,min,B,2080–2100,SPI3,P,Precipitation,low,Q1,27,14.944737026659391
+cost,min,B,2080–2100,SPI3,P,Precipitation,high,Q4,27,7.236872470598525
+cost,min,B,2080–2100,SPI3,S,Streamflow,low,Q1,27,13.139451941507842
+cost,min,B,2080–2100,SPI3,S,Streamflow,high,Q4,27,9.040553059069014
+cost,min,B,2080–2100,SPI3,G,Glacier melt,low,Q1,27,12.219681264005304
+cost,min,B,2080–2100,SPI3,G,Glacier melt,high,Q4,27,9.80061247306486
+cost,min,B,2080–2100,SPI6,T,Temperature,low,Q1,27,4.1757665466073925
+cost,min,B,2080–2100,SPI6,T,Temperature,high,Q4,27,6.864574293830223
+cost,min,B,2080–2100,SPI6,P,Precipitation,low,Q1,27,8.43161966628852
+cost,min,B,2080–2100,SPI6,P,Precipitation,high,Q4,27,3.417315675293414
+cost,min,B,2080–2100,SPI6,S,Streamflow,low,Q1,27,8.128839426204097
+cost,min,B,2080–2100,SPI6,S,Streamflow,high,Q4,27,4.273429960668362
+cost,min,B,2080–2100,SPI6,G,Glacier melt,low,Q1,27,7.651603817801816
+cost,min,B,2080–2100,SPI6,G,Glacier melt,high,Q4,27,4.426703941524271
+cost,min,B,2080–2100,SPI12,T,Temperature,low,Q1,27,2.291959961323911
+cost,min,B,2080–2100,SPI12,T,Temperature,high,Q4,27,4.9738167753122315
+cost,min,B,2080–2100,SPI12,P,Precipitation,low,Q1,27,6.5707261423133785
+cost,min,B,2080–2100,SPI12,P,Precipitation,high,Q4,27,1.4623344898315596
+cost,min,B,2080–2100,SPI12,S,Streamflow,low,Q1,27,6.848958917760261
+cost,min,B,2080–2100,SPI12,S,Streamflow,high,Q4,27,2.633669083317473
+cost,min,B,2080–2100,SPI12,G,Glacier melt,low,Q1,27,6.564429713313244
+cost,min,B,2080–2100,SPI12,G,Glacier melt,high,Q4,27,2.633669083317473
+urban,max,A,2020–2040,SRI3,T,Temperature,low,Q1,27,0.9686554950724019
+urban,max,A,2020–2040,SRI3,T,Temperature,high,Q4,27,0.9680506635357742
+urban,max,A,2020–2040,SRI3,P,Precipitation,low,Q1,27,0.9698651581456575
+urban,max,A,2020–2040,SRI3,P,Precipitation,high,Q4,27,0.968299711815562
+urban,max,A,2020–2040,SRI3,S,Streamflow,low,Q1,27,0.968050663535774
+urban,max,A,2020–2040,SRI3,S,Streamflow,high,Q4,27,0.9721421709894332
+urban,max,A,2020–2040,SRI3,G,Glacier melt,low,Q1,27,0.9702565197281815
+urban,max,A,2020–2040,SRI3,G,Glacier melt,high,Q4,27,0.9721421709894332
+urban,max,A,2020–2040,SRI6,T,Temperature,low,Q1,27,0.9559184544775324
+urban,max,A,2020–2040,SRI6,T,Temperature,high,Q4,27,0.9525029352118689
+urban,max,A,2020–2040,SRI6,P,Precipitation,low,Q1,27,0.9530366100971287
+urban,max,A,2020–2040,SRI6,P,Precipitation,high,Q4,27,0.9549578396840644
+urban,max,A,2020–2040,SRI6,S,Streamflow,low,Q1,27,0.951791368698189
+urban,max,A,2020–2040,SRI6,S,Streamflow,high,Q4,27,0.9597253353257195
+urban,max,A,2020–2040,SRI6,G,Glacier melt,low,Q1,27,0.9537481766108087
+urban,max,A,2020–2040,SRI6,G,Glacier melt,high,Q4,27,0.9605080584907675
+urban,max,A,2020–2040,SRI12,T,Temperature,low,Q1,27,0.9321165545949408
+urban,max,A,2020–2040,SRI12,T,Temperature,high,Q4,27,0.931547301383997
+urban,max,A,2020–2040,SRI12,P,Precipitation,low,Q1,27,0.9267798057423418
+urban,max,A,2020–2040,SRI12,P,Precipitation,high,Q4,27,0.9298751200768492
+urban,max,A,2020–2040,SRI12,S,Streamflow,low,Q1,27,0.9264596008111857
+urban,max,A,2020–2040,SRI12,S,Streamflow,high,Q4,27,0.9374533034475396
+urban,max,A,2020–2040,SRI12,G,Glacier melt,low,Q1,27,0.930302059985057
+urban,max,A,2020–2040,SRI12,G,Glacier melt,high,Q4,27,0.9404063044793111
+urban,max,A,2020–2040,SPI3,T,Temperature,low,Q1,27,0.9579108407158359
+urban,max,A,2020–2040,SPI3,T,Temperature,high,Q4,27,0.9649197708755827
+urban,max,A,2020–2040,SPI3,P,Precipitation,low,Q1,27,0.9678727719073541
+urban,max,A,2020–2040,SPI3,P,Precipitation,high,Q4,27,0.9611840466787633
+urban,max,A,2020–2040,SPI3,S,Streamflow,low,Q1,27,0.9641370477105348
+urban,max,A,2020–2040,SPI3,S,Streamflow,high,Q4,27,0.9586935638808838
+urban,max,A,2020–2040,SPI3,G,Glacier melt,low,Q1,27,0.9645284092930587
+urban,max,A,2020–2040,SPI3,G,Glacier melt,high,Q4,27,0.9613619383071833
+urban,max,A,2020–2040,SPI6,T,Temperature,low,Q1,27,0.9705767246593375
+urban,max,A,2020–2040,SPI6,T,Temperature,high,Q4,27,0.9728537375031131
+urban,max,A,2020–2040,SPI6,P,Precipitation,low,Q1,27,0.9762692567687764
+urban,max,A,2020–2040,SPI6,P,Precipitation,high,Q4,27,0.9722133276408014
+urban,max,A,2020–2040,SPI6,S,Streamflow,low,Q1,27,0.9703276763795495
+urban,max,A,2020–2040,SPI6,S,Streamflow,high,Q4,27,0.9709680862418614
+urban,max,A,2020–2040,SPI6,G,Glacier melt,low,Q1,27,0.9696516881915537
+urban,max,A,2020–2040,SPI6,G,Glacier melt,high,Q4,27,0.9712527128473333
+urban,max,A,2020–2040,SPI12,T,Temperature,low,Q1,27,0.9884370441527023
+urban,max,A,2020–2040,SPI12,T,Temperature,high,Q4,27,0.9853061514925107
+urban,max,A,2020–2040,SPI12,P,Precipitation,low,Q1,27,0.9891130323406981
+urban,max,A,2020–2040,SPI12,P,Precipitation,high,Q4,27,0.9864446579143985
+urban,max,A,2020–2040,SPI12,S,Streamflow,low,Q1,27,0.9858042480520866
+urban,max,A,2020–2040,SPI12,S,Streamflow,high,Q4,27,0.9889351407122781
+urban,max,A,2020–2040,SPI12,G,Glacier melt,low,Q1,27,0.9844522716760948
+urban,max,A,2020–2040,SPI12,G,Glacier melt,high,Q4,27,0.9893620806204858
+urban,max,B,2080–2100,SRI3,T,Temperature,low,Q1,27,0.9987547586010602
+urban,max,B,2080–2100,SRI3,T,Temperature,high,Q4,27,0.8699256412993205
+urban,max,B,2080–2100,SRI3,P,Precipitation,low,Q1,27,0.8944746860212759
+urban,max,B,2080–2100,SRI3,P,Precipitation,high,Q4,27,0.9797915110114919
+urban,max,B,2080–2100,SRI3,S,Streamflow,low,Q1,27,0.8627388195111538
+urban,max,B,2080–2100,SRI3,S,Streamflow,high,Q4,27,0.999608638417476
+urban,max,B,2080–2100,SRI3,G,Glacier melt,low,Q1,27,0.8613512648094779
+urban,max,B,2080–2100,SRI3,G,Glacier melt,high,Q4,27,1.0
+urban,max,B,2080–2100,SRI6,T,Temperature,low,Q1,27,0.9988970719037961
+urban,max,B,2080–2100,SRI6,T,Temperature,high,Q4,27,0.8649090973778775
+urban,max,B,2080–2100,SRI6,P,Precipitation,low,Q1,27,0.8965738072366316
+urban,max,B,2080–2100,SRI6,P,Precipitation,high,Q4,27,0.9783327996584482
+urban,max,B,2080–2100,SRI6,S,Streamflow,low,Q1,27,0.8603906500160102
+urban,max,B,2080–2100,SRI6,S,Streamflow,high,Q4,27,0.9995374817661081
+urban,max,B,2080–2100,SRI6,G,Glacier melt,low,Q1,27,0.8585405770804427
+urban,max,B,2080–2100,SRI6,G,Glacier melt,high,Q4,27,1.0
+urban,max,B,2080–2100,SRI12,T,Temperature,low,Q1,27,0.9986836019496922
+urban,max,B,2080–2100,SRI12,T,Temperature,high,Q4,27,0.876863414807699
+urban,max,B,2080–2100,SRI12,P,Precipitation,low,Q1,27,0.9128686803999003
+urban,max,B,2080–2100,SRI12,P,Precipitation,high,Q4,27,0.9761981001174085
+urban,max,B,2080–2100,SRI12,S,Streamflow,low,Q1,27,0.8795317892339988
+urban,max,B,2080–2100,SRI12,S,Streamflow,high,Q4,27,0.999679795068844
+urban,max,B,2080–2100,SRI12,G,Glacier melt,low,Q1,27,0.8731988472622478
+urban,max,B,2080–2100,SRI12,G,Glacier melt,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI3,T,Temperature,low,Q1,27,0.999608638417476
+urban,max,B,2080–2100,SPI3,T,Temperature,high,Q4,27,0.7883089621802397
+urban,max,B,2080–2100,SPI3,P,Precipitation,low,Q1,27,0.8223574198598214
+urban,max,B,2080–2100,SPI3,P,Precipitation,high,Q4,27,0.9674102536734621
+urban,max,B,2080–2100,SPI3,S,Streamflow,low,Q1,27,0.7737574269754866
+urban,max,B,2080–2100,SPI3,S,Streamflow,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI3,G,Glacier melt,low,Q1,27,0.7762834880990501
+urban,max,B,2080–2100,SPI3,G,Glacier melt,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI6,T,Temperature,low,Q1,27,0.9995374817661081
+urban,max,B,2080–2100,SPI6,T,Temperature,high,Q4,27,0.8199736720389941
+urban,max,B,2080–2100,SPI6,P,Precipitation,low,Q1,27,0.8497883089621803
+urban,max,B,2080–2100,SPI6,P,Precipitation,high,Q4,27,0.9700786280997616
+urban,max,B,2080–2100,SPI6,S,Streamflow,low,Q1,27,0.8101896324758956
+urban,max,B,2080–2100,SPI6,S,Streamflow,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI6,G,Glacier melt,low,Q1,27,0.8119329704344113
+urban,max,B,2080–2100,SPI6,G,Glacier melt,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI12,T,Temperature,low,Q1,27,0.9990749635322161
+urban,max,B,2080–2100,SPI12,T,Temperature,high,Q4,27,0.8158465862596508
+urban,max,B,2080–2100,SPI12,P,Precipitation,low,Q1,27,0.8506421887785961
+urban,max,B,2080–2100,SPI12,P,Precipitation,high,Q4,27,0.9703632547052337
+urban,max,B,2080–2100,SPI12,S,Streamflow,low,Q1,27,0.8053509801828725
+urban,max,B,2080–2100,SPI12,S,Streamflow,high,Q4,27,1.0
+urban,max,B,2080–2100,SPI12,G,Glacier melt,low,Q1,27,0.8019710392428933
+urban,max,B,2080–2100,SPI12,G,Glacier melt,high,Q4,27,1.0
+agriculture,max,A,2020–2040,SRI3,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SRI3,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SRI3,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SRI3,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SRI3,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SRI3,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SRI3,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SRI3,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,A,2020–2040,SRI6,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SRI6,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SRI6,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SRI6,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SRI6,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SRI6,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SRI6,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SRI6,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,A,2020–2040,SRI12,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SRI12,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SRI12,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SRI12,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SRI12,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SRI12,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SRI12,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SRI12,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,A,2020–2040,SPI3,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SPI3,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SPI3,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SPI3,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SPI3,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SPI3,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SPI3,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SPI3,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,A,2020–2040,SPI6,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SPI6,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SPI6,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SPI6,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SPI6,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SPI6,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SPI6,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SPI6,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,A,2020–2040,SPI12,T,Temperature,low,Q1,27,0.5209022663393461
+agriculture,max,A,2020–2040,SPI12,T,Temperature,high,Q4,27,0.5192300850321984
+agriculture,max,A,2020–2040,SPI12,P,Precipitation,low,Q1,27,0.5163482406517949
+agriculture,max,A,2020–2040,SPI12,P,Precipitation,high,Q4,27,0.5203330131284021
+agriculture,max,A,2020–2040,SPI12,S,Streamflow,low,Q1,27,0.5074536592307967
+agriculture,max,A,2020–2040,SPI12,S,Streamflow,high,Q4,27,0.5355961148468352
+agriculture,max,A,2020–2040,SPI12,G,Glacier melt,low,Q1,27,0.505461272992493
+agriculture,max,A,2020–2040,SPI12,G,Glacier melt,high,Q4,27,0.5418223218415341
+agriculture,max,B,2080–2100,SRI3,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SRI3,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SRI3,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SRI3,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SRI3,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SRI3,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SRI3,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SRI3,G,Glacier melt,high,Q4,27,0.9452449567723342
+agriculture,max,B,2080–2100,SRI6,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SRI6,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SRI6,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SRI6,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SRI6,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SRI6,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SRI6,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SRI6,G,Glacier melt,high,Q4,27,0.9452449567723342
+agriculture,max,B,2080–2100,SRI12,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SRI12,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SRI12,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SRI12,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SRI12,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SRI12,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SRI12,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SRI12,G,Glacier melt,high,Q4,27,0.9452449567723342
+agriculture,max,B,2080–2100,SPI3,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SPI3,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SPI3,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SPI3,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SPI3,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SPI3,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SPI3,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SPI3,G,Glacier melt,high,Q4,27,0.9452449567723342
+agriculture,max,B,2080–2100,SPI6,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SPI6,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SPI6,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SPI6,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SPI6,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SPI6,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SPI6,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SPI6,G,Glacier melt,high,Q4,27,0.9452449567723342
+agriculture,max,B,2080–2100,SPI12,T,Temperature,low,Q1,27,0.9111253424413847
+agriculture,max,B,2080–2100,SPI12,T,Temperature,high,Q4,27,0.4154125306863059
+agriculture,max,B,2080–2100,SPI12,P,Precipitation,low,Q1,27,0.409542106948447
+agriculture,max,B,2080–2100,SPI12,P,Precipitation,high,Q4,27,0.7769594762870459
+agriculture,max,B,2080–2100,SPI12,S,Streamflow,low,Q1,27,0.3692318639484827
+agriculture,max,B,2080–2100,SPI12,S,Streamflow,high,Q4,27,0.9392677980574234
+agriculture,max,B,2080–2100,SPI12,G,Glacier melt,low,Q1,27,0.3865585085565873
+agriculture,max,B,2080–2100,SPI12,G,Glacier melt,high,Q4,27,0.9452449567723342

@@ -1,0 +1,33 @@
+Sep16 low-glacier optimal-policy time-series method
+
+All scenarios are from the 108-scenario out-of-sample ensemble. Scenarios are
+ranked by ascending mean glacier melt from 2080-01-01 through 2099-12-31.
+Exactly ten scenarios are retained; ties are resolved by scenario name.
+
+Both periods show SPI12 and SRI12. The original figure set selects one fixed
+policy from each of the four indicator-period OOS Pareto sets by maximum mean
+urban reliability across all 108 OOS scenarios. Ties are resolved by lower
+mean total cost, higher mean agricultural reliability, and then the
+lexicographically smallest decision vector.
+
+The additional figure sets use target costs of 650, 5000 M$. For each
+target and each of the four OOS Pareto sets, the policy with the largest mean
+total cost strictly below that target is selected (the closest policy from
+below). Policies at or above the applicable target are excluded. Exact-cost
+ties are resolved by higher mean urban reliability, higher mean agricultural
+reliability, and then the lexicographically smallest decision vector. Each
+selection rule uses the same four fixed policies for all ten climates, allowing
+the figures to be compared without changing the selected scenarios.
+
+Panels a and c show spatial-mean weekly precipitation and glacier melt. Panels
+b and d show both drought indicators. For each indicator, both its contract
+and demand-restriction thresholds are drawn with the same indicator-specific
+style, matching the manuscript figure; coincident thresholds therefore appear
+as one line. Panels e and f each contain four bars (two indicators by two
+periods). Panel e shows total triggered contract purchases in thousand shares;
+it is not a physical water volume. Panel f shows cumulative urban demand
+restricted in Mm3. Action totals are read from the completed Sep16 CDF-action
+caches; this plotting script does not rerun Pywr. The original figures remain
+in figures/. Cost-constrained figure folders are:
+- 650 M$: figures/cost_below_650M/
+- 5000 M$: figures/cost_below_5000M/

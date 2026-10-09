@@ -1,0 +1,3 @@
+Four-quartile climate grouping method
+
+For precipitation, temperature, streamflow, and glacier melt, the scenario-level metric is the same shifted final-20-year mean used by the existing different-climate workflow. All 108 OOS scenarios are sorted ascending by (metric value, scenario name). Sorted ranks 1-27, 28-54, 55-81, and 82-108 define Q1, Q2, Q3, and Q4, respectively. Scenario name is used only as a deterministic tie-breaker. Therefore, the four groups are mutually exclusive, exhaustive, and each contains 27 scenarios. Within each group and drought indicator, objectives are averaged across the 27 scenarios and three-objective non-dominance is recomputed using total cost (minimize), urban reliability (maximize), and agricultural reliability (maximize).

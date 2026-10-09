@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "panel": "a",
+      "left_pt": 10.15454545454546,
+      "bottom_pt": 82.09800000000001,
+      "right_pt": 447.5127272727273,
+      "top_pt": 353.28000000000003,
+      "width_pt": 437.35818181818183,
+      "height_pt": 271.182
+    },
+    {
+      "panel": "b",
+      "left_pt": 474.3745454545455,
+      "bottom_pt": 82.09800000000001,
+      "right_pt": 911.7327272727274,
+      "top_pt": 353.28000000000003,
+      "width_pt": 437.35818181818183,
+      "height_pt": 271.182
+    }
+  ],
+  "deviations_pt": {
+    "bottom_pt": 0.0,
+    "top_pt": 0.0,
+    "width_pt": 0.0,
+    "height_pt": 0.0
+  }
+}

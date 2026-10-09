@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "figure_size_pt": [
+    756.0,
+    331.2
+  ],
+  "tolerance_pt": 1.5,
+  "panels": [
+    {
+      "id": "panel_1",
+      "row": 0,
+      "column": 0,
+      "left": 68.03999999999999,
+      "bottom": 39.744,
+      "right": 381.28999999999996,
+      "top": 284.832,
+      "width": 313.25,
+      "height": 245.088
+    },
+    {
+      "id": "panel_2",
+      "row": 0,
+      "column": 1,
+      "left": 431.40999999999997,
+      "bottom": 39.744,
+      "right": 744.66,
+      "top": 284.832,
+      "width": 313.25,
+      "height": 245.088
+    }
+  ],
+  "deviations_pt": {
+    "row_0_top": 0.0,
+    "row_0_bottom": 0.0,
+    "row_0_width": 0.0,
+    "row_0_height": 0.0
+  },
+  "verdict": "PASS"
+}

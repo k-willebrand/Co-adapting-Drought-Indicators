@@ -1,0 +1,37 @@
+OOS action CDF method
+
+Policy run: sep16_decost
+
+Candidate policies are all unique decision vectors pooled across seven
+Borg seeds. For each indicator-period, policies are filtered using the existing
+108-scenario OOS mean objectives: total cost is minimized, urban reliability is
+maximized, and agricultural reliability is maximized. This is the per-indicator
+OOS Pareto mask, not the six-indicator joint mask.
+
+The all-policy CDF flattens every retained OOS Pareto policy by all 108 climate
+scenarios. Total contracts are temporally summed by the Pywr recorder. Total
+urban demand restricted is the temporal sum of unrestricted demand minus the
+temporal sum of policy-restricted demand, converted from weekly m3/s samples to
+Mm3 using 604800 seconds per weekly timestep.
+
+The SPI12 policy is selected from the Period A OOS Pareto set by maximum OOS
+mean urban reliability. The SRI12 policy is selected
+analogously from Period B.
+The two fixed decision vectors are each evaluated in both OOS periods.
+
+The additional all-indicator selected-policy figure independently selects the
+maximum-OOS-mean-urban-reliability policy from every indicator-period Pareto
+set. Ties are resolved by lower mean total cost, higher mean agricultural
+reliability, and then the lexicographically smallest decision vector. Each CDF
+in that figure contains the selected policy's 108 scenario-level action values;
+it does not pool multiple policies and does not require new simulations.
+
+The target-cost figures use target costs of 650, 5000 M$. For every
+target and every indicator-period OOS Pareto set, the policy with the largest
+108-scenario mean total cost strictly below the target is selected (i.e., the
+closest policy from below). Policies at or above the applicable target are
+excluded. Exact-cost ties are resolved by higher mean urban reliability,
+higher mean agricultural reliability, and then the lexicographically smallest
+decision vector. Each CDF contains that single policy's 108 scenario-level
+action values and is extracted from the completed Pareto-policy action caches;
+no additional model simulations are required.

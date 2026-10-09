@@ -1,0 +1,48 @@
+Period-B SPI/SRI scenario classification method
+
+All calculations use completed Sep16 OOS caches and are performed separately
+for each of the 108 Period-B scenarios. No objective is averaged across climate
+scenarios.
+
+Highest-urban classification: each indicator first contributes its policy with
+maximum urban reliability in the scenario. The maximum reliability attainable
+by any SPI policy is compared directly with the maximum attainable by any SRI
+policy. SPI or SRI is assigned only when its value is strictly greater; exact
+equality is recorded as Tie and excluded from both violin panels. A
+deterministic policy is still retained in the CSV for audit purposes, using
+minimum total cost, maximum agricultural reliability, the lexicographically
+smallest decision vector, and then the fixed indicator order
+SPI3, SPI6, SPI12, SRI3, SRI6, SRI12.
+
+Highest-agricultural classification: the maximum agricultural reliability
+attainable by any SPI policy is compared directly with the maximum attainable
+by any SRI policy. The family with the strictly greater value is assigned; exact
+equality is recorded as Tie and excluded from both violin panels. For an
+auditable representative policy, equal-reliability candidates are ordered by
+minimum total cost, maximum urban reliability, decision vector, and indicator
+order.
+
+Lowest-cost classification: the minimum total cost attainable by any SPI
+policy is compared directly with the minimum attainable by any SRI policy. The
+family with the strictly lower value is assigned; exact equality is recorded as
+Tie and excluded from both violin panels. For an auditable representative
+policy, equal-cost candidates are ordered by maximum urban reliability, maximum
+agricultural reliability, decision vector, and indicator order.
+
+Hypervolume classification: a separate three-objective Pareto front is computed
+for every scenario and every indicator using cost/1e6, 1-urban reliability, and
+1-agricultural reliability as minimization objectives. All 648 fronts share one
+global Period-B ideal point and one reference point formed from the worst
+observed front coordinate plus a 0.1 span margin. Hypervolume
+is calculated independently for SPI3, SPI6, SPI12, SRI3, SRI6, and SRI12. The
+largest SPI hypervolume is compared directly with the largest SRI hypervolume.
+SPI or SRI is assigned only when its value is strictly greater; exact equality
+is recorded as Tie and excluded from both violin panels. The fixed indicator
+order above is retained only as an auditable deterministic tie-break field in
+the CSV and does not convert a family tie into an SPI or SRI win.
+
+Climate percentiles: the same shifted final-20-year temperature, precipitation,
+streamflow, and glacier-melt metrics used by the different-climate workflow are
+calculated for all 108 OOS scenarios. Average ranks are assigned to exact ties
+and scaled as (rank-1)/(108-1), producing the 0-1 percentile-rank axis. Scenario
+matching is by name, never by input column position.

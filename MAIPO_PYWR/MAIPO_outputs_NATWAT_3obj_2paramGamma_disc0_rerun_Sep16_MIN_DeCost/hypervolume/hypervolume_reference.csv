@@ -1,0 +1,5 @@
+point,cost_million,urban_unreliability,agricultural_unreliability,reference_margin,datasets_used_for_bounds
+ideal,2.5305076126787895,0.010833600170775948,0.3899651332408296,0.05,training+oos
+worst_observed,9111.103034946089,0.4239513288504644,0.8353879816415839,0.05,training+oos
+raw_reference,9566.53166131276,0.4446072152844488,0.8576591240616216,0.05,training+oos
+normalized_reference,1.0,1.0,1.0,0.05,training+oos
