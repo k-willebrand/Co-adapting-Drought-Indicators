@@ -259,6 +259,9 @@ This repository can be used to evaluate drought indicators and management polici
 Additional large data files are located here:
 https://drive.google.com/drive/folders/1pwGsR5cXxacTHKjueLDrl5hS6YS4_gq1
 
+These large data files are also available via the associated Zenodo dataset for this code with the following DOI: 
+10.5281/zenodo.23310362
+
 Note: this will be changed from a Google Drive folder to a permanent repository on Zenodo prior to publication.
 
 ---
