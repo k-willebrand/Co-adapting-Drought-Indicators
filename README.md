@@ -6,23 +6,19 @@ This repository contains code and processed data accompanying the manuscript:
 *Submitted to* *Nature Water* (2026)
 
 **Authors:**  
-Keani Willebrand$^{1*}$, Sebastian Vicuna$^{2}$, Jorge Gironás$^{3,4,5,6}$, Oscar Melo$^{7}$, Danny Sallis$^{1}$, Sarah Fletcher$^{1,8*}$  
+Keani Willebrand<sup>1*<sup>, Mofan Zhang<sup>1<sup>, Sebastian Vicuña<sup>2,3<sup>, Jorge Gironás<sup>2,3,4<sup>, Oscar Melo<sup>3,5<sup>, Danny Sallis<sup>1<sup>, Sarah Fletcher<sup>1,6*<sup>  
 
-$^1$ Department of Civil and Environmental Engineering, Stanford University, Stanford, CA, USA
+<sup>1<sup> Department of Civil and Environmental Engineering, Stanford University, Stanford, CA, USA
 
-$^2$ Department of Hydraulics and Environmental Engineering, Pontificia Universidad Católica de Chile, Santiago, Chile
+<sup>2<sup> Departamento de Ingeniería Hidráulica y Ambiental, Pontificia Universidad Católica de Chile, Santiago, Chile.
 
-$^3$ Departamento de Ingeniería Hidráulica y Ambiental, Pontificia Universidad Católica de Chile, Santiago, Chile
+<sup>3<sup> Centro Interdisciplinario de Cambio Global, Pontificia Universidad Católica de Chile, Santiago, Chile
 
-$^4$ Centro Interdisciplinario de Cambio Global, Pontificia Universidad Católica de Chile, Santiago, Chile.
+<sup>4<sup> Centro de Desarrollo Urbano Sustentable (CEDEUS), Santiago, Chile
 
-$^5$ Centro Interdisciplinario de Cambio Global, Pontificia Universidad Católica de Chile, Santiago, Chile.
+<sup>5<sup> Department of Agricultural Economics, Pontificia Universidad Católica de Chile, Santiago, Chile
 
-$^6$ Centro de Desarrollo Urbano Sustentable (CEDEUS ANID/FONDAP/1523A0004), Santiago, Chile.
-
-$^7$ Department of Agricultural Economics, Pontificia Universidad Católica de Chile, Santiago, Chile
-
-$^8$ Woods Institute for the Environment, Stanford University, Stanford, CA, USA
+<sup>6<sup> Woods Institute for the Environment, Stanford University, Stanford, CA, USA
 
 \* Corresponding authors  
 
@@ -81,11 +77,9 @@ This folder includes:
 
 All core model simulations and optimization experiments described in the manuscript are derived from this directory.
 Optimization in parallel was conducted with a high-performance computing (HPC) cluster with Python version 3.9.0 and Open MPI version 5.0.5. 
-Optimization scripts are stored in the `dps_BORG` subfolder under files starting with `example_sim_opt` and specifying
-whether management plans are optimized over the near-term (20yrA) 2020-2040 planning horizon or the end-of-century (20yrB) 2080-2100
-planning horizon conditioned on alternative drought indicators (e.g., SPI-3).
+The optimization script is stored in the `dps_BORG` subfolder under the filename `sim_opt_NATWAT_3obj_2paramGamma_disc0_MIN_DeCost.py`. The script can be configured to specify whether management plans are optimized over the near-term (period A) 2020-2040 planning horizon or the end-of-century (period B) 2080-2100 planning horizon conditioned on alternative drought indicators (e.g., SPI-3).
 
-The main figures from the manuscript can be recreated in `plots_Manuscript_NatureV1_clean_Validation_pooled_seeds.py`
+The main analysis and result figures from the manuscript can be recreated in `plots_Manuscript_NatureV2.py`
 
 ---
 
