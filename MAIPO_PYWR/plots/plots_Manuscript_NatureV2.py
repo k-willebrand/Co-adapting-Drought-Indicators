@@ -79,13 +79,13 @@ def parse_args() -> argparse.Namespace:
         help="One reproducible workflow stage.",
     )
     parser.add_argument("--project-root", type=Path, default=root)
-    parser.add_argument("--results-dir", type=Path, default=root / RESULTS_FOLDER)
-    parser.add_argument("--data-root", type=Path, default=root / "data")
+    parser.add_argument("--results-dir", type=Path, default=root.parent / RESULTS_FOLDER)   
+    parser.add_argument("--data-root", type=Path, default=root.parent / "data")             
     parser.add_argument(
         "--model-script",
         type=Path,
         default=(
-            root
+            root.parent                                                                       
             / "dps_BORG"
             / "sim_opt_NATWAT_3obj_2paramGamma_disc0_MIN_DeCost.py"
         ),
