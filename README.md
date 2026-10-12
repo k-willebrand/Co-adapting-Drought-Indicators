@@ -6,19 +6,19 @@ This repository contains code and processed data accompanying the manuscript:
 *Submitted to* *Nature Water* (2026)
 
 **Authors:**  
-Keani Willebrand<sup>1*<sup>, Mofan Zhang<sup>1<sup>, Sebastian Vicuña<sup>2,3<sup>, Jorge Gironás<sup>2,3,4<sup>, Oscar Melo<sup>3,5<sup>, Danny Sallis<sup>1<sup>, Sarah Fletcher<sup>1,6*<sup>  
+Keani Willebrand<sup>1*</sup>, Mofan Zhang<sup>1</sup>, Sebastian Vicuña<sup>2,3</sup>, Jorge Gironás<sup>2,3,4</sup>, Oscar Melo<sup>3,5</sup>, Danny Sallis<sup>1</sup>, Sarah Fletcher<sup>1,6*</sup>  
 
-<sup>1<sup> Department of Civil and Environmental Engineering, Stanford University, Stanford, CA, USA
+<sup>1</sup> Department of Civil and Environmental Engineering, Stanford University, Stanford, CA, USA
 
-<sup>2<sup> Departamento de Ingeniería Hidráulica y Ambiental, Pontificia Universidad Católica de Chile, Santiago, Chile.
+<sup>2</sup> Departamento de Ingeniería Hidráulica y Ambiental, Pontificia Universidad Católica de Chile, Santiago, Chile.
 
-<sup>3<sup> Centro Interdisciplinario de Cambio Global, Pontificia Universidad Católica de Chile, Santiago, Chile
+<sup>3</sup> Centro Interdisciplinario de Cambio Global, Pontificia Universidad Católica de Chile, Santiago, Chile
 
-<sup>4<sup> Centro de Desarrollo Urbano Sustentable (CEDEUS), Santiago, Chile
+<sup>4</sup> Centro de Desarrollo Urbano Sustentable (CEDEUS), Santiago, Chile
 
-<sup>5<sup> Department of Agricultural Economics, Pontificia Universidad Católica de Chile, Santiago, Chile
+<sup>5</sup> Department of Agricultural Economics, Pontificia Universidad Católica de Chile, Santiago, Chile
 
-<sup>6<sup> Woods Institute for the Environment, Stanford University, Stanford, CA, USA
+<sup>6</sup> Woods Institute for the Environment, Stanford University, Stanford, CA, USA
 
 \* Corresponding authors  
 
