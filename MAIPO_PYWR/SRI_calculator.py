@@ -1,313 +1,151 @@
-# calculate the SRI at different temporal aggregations in the Maipo basin
+"""
+SRI_calculator_TDP_2paramGamma.py
 
-import pandas as pd
+SRI-3, SRI-6 and SRI-12 for the 36 TDP CMIP6 GCM/SSP scenarios (9 models x 4 SSPs), with a
+2-parameter gamma fit (location fixed at 0), for two baselines:
+
+  PERIOD A -> data/TDP_scenarios_DS_2paramGamma/SRI3.csv, SRI6.csv, SRI12.csv
+      One shared fit per calendar month on 1988-2018
+  PERIOD B -> data/TDP_scenarios_DS_2paramGamma_periodB/SRI3.csv, SRI6.csv, SRI12.csv
+      Each scenario fit per calendar month on its own 2049-2079, applied to that scenario
+
+Flow series:
+  basin inflow = 0.85 x (Yeso + Volcan + Volcan_Canal + Colorado_before_Maipo + Laguna_Negra
+                         + Maipo_Las_Hualtatas + Macul + Ramon + Mapocho)
+                 + n x glacier melt,   n = 0.15 x 0.85 x headflow / melt
+
+LOCATION AND INPUTS
+  data/WEAP_CMIP6_PEGH_Maipo_Cordillera_2021_Results_1980-2099_3June2024_TempC_new/
+      <basin>_1980-2099_3June2024_TempC_new.csv  (3 header rows skipped)
+  data/CMIP6_Glacier_Melt_TDP.csv
+Update file input paths for new scenarios
+"""
+import os
 import numpy as np
-import datetime
-from datetime import timedelta, date
-from scipy.stats import norm
-from scipy.stats import gamma
-import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.stats import gamma, norm
+
+# ============================== SETTINGS ==============================
+PROJECT = os.path.dirname(os.path.abspath(__file__)) + os.sep
+DATA = PROJECT + 'data' + os.sep
+
+PERIODS_TO_RUN = ['A', 'B']        # e.g. ['A'] to write only the Period A files
+WINDOWS = [3, 6, 12]
+
+# inputs (WEAP headflows and glacier melt)
+WEAP_DIR = DATA + 'WEAP_CMIP6_PEGH_Maipo_Cordillera_2021_Results_1980-2099_3June2024_TempC_new' + os.sep
+WEAP_SUFFIX = '_1980-2099_3June2024_TempC_new.csv'
+GLACIER_FILE = DATA + 'CMIP6_Glacier_Melt_TDP.csv'
+
+# baseline months for the gamma fits
+BASELINE_MONTHS = {'A': ('1988-01', '2018-12'),
+                   'B': ('2049-12', '2079-11')}
+
+# outputs
+OUT_DIR = {'A': DATA + 'TDP_scenarios_DS_2paramGamma' + os.sep,
+           'B': DATA + 'TDP_scenarios_DS_2paramGamma_periodB' + os.sep}
 
 
-def fit_gamma(data):
-    params = gamma.fit(data.dropna())  # shape, loc, scale
+# ============================== FLOW SERIES ==============================
+def load_weap(name):
+    return pd.read_csv(WEAP_DIR + name + WEAP_SUFFIX, skiprows=3)
 
+
+def build_monthly_inflow():
+    """Monthly basin inflow for every scenario: scaled headflows + scaled glacier melt."""
+    names = ['Yeso', 'Volcan', 'Volcan_Canal', 'Colorado_before_Maipo', 'Laguna_Negra',
+             'Maipo_Las_Hualtatas', 'Macul', 'Ramon', 'Mapocho']
+    raw = {name: load_weap(name) for name in names}
+    scenarios = [c for c in raw['Yeso'].columns if c != 'Scenario']
+
+    parts = raw['Yeso']['Scenario'].str.split()          # e.g. "Wk 12 1979"
+    ts = pd.to_datetime(parts.str[2] + parts.str[1].str.zfill(2) + '-1', format='%Y%W-%w')
+
+    r = {name: df[scenarios] for name, df in raw.items()}
+    headflows = [r['Yeso'],
+                 r['Volcan'] + r['Volcan_Canal'],
+                 r['Colorado_before_Maipo'],
+                 r['Maipo_Las_Hualtatas'],
+                 r['Laguna_Negra'],
+                 r['Macul'] + r['Ramon'] + r['Mapocho']]
+
+    # glacier melt scaling factor n (first scenario, 2010-2018 to match historical estimates)
+    ref_sc = scenarios[0]
+    ref = (ts.dt.year >= 2010) & (ts.dt.year <= 2018)
+    I_tot_ref = sum(h.loc[ref, ref_sc].sum() for h in headflows)
+
+    glac = pd.read_csv(GLACIER_FILE, index_col=0).reset_index(drop=True).copy()
+    glac['Timestamp'] = pd.to_datetime(glac['Date'])
+    glac_ref = (glac['Timestamp'].dt.year >= 2010) & (glac['Timestamp'].dt.year <= 2018)
+    # glacier melt = 15% of the scaled (x 0.85) headflow total over 2010-2018
+    n_sc = 0.15 * 0.85 * I_tot_ref / glac.loc[glac_ref, ref_sc].sum()
+
+    # align to WEAP timestamps
+    hits = np.flatnonzero(glac['Timestamp'].values == ts.iloc[0].to_datetime64())
+    glac_aligned = glac[scenarios].iloc[hits[0]:hits[0] + len(ts)].reset_index(drop=True)
+
+    weekly = 0.85 * sum(headflows).reset_index(drop=True) + n_sc * glac_aligned
+    weekly.index = pd.DatetimeIndex(ts)
+    return weekly.resample('ME').sum(), scenarios
+
+
+# ============================== SRI ==============================
+def fit_2p_by_month(series):
+    """2-parameter gamma (floc=0) fit for each calendar month"""
+    params = {}
+    for m in range(1, 13):
+        data = series[series.index.month == m].dropna()
+        params[m] = gamma.fit(data, floc=0)
     return params
 
 
-# load the data
-I_Yeso = pd.read_csv('data/YESO.csv')
-I_Volcan = pd.read_csv('data/VOLCAN.csv')
-I_Colorado = pd.read_csv('data/COLORADO.csv')
-I_Maipo = pd.read_csv('data/MAIPO.csv')
-I_Negra = pd.read_csv('data/LAGUNANEGRA.csv')
-I_Extra = pd.read_csv('data/MAIPOEXTRA.csv')
-
-# calculate total weekly inflow in the basin
-I = I_Yeso.add(I_Volcan, fill_value=0)
-I = I.add(I_Colorado, fill_value=0)
-I = I.add(I_Maipo, fill_value=0)
-I = I.add(I_Negra, fill_value=0)
-I = I.add(I_Extra, fill_value=0)
-I['Timestamp'] = I_Yeso['Timestamp']
-
-# add updated timestamp column reflecting weekly time steps
-start_date = datetime.datetime.strptime(I['Timestamp'][0], '%d-%m-%Y')
-week_no = np.array(range(len(I)))
-I['Timestamp_'] = start_date + week_no * timedelta(days=7)
-I = I.drop(['Timestamp'], axis=1)
-first_column = I.pop('Timestamp_')
-I.insert(0, 'Timestamp_', first_column)
-
-# calculate aggregate monthly inflow in the basin
-I_ = I.resample(rule="M", on='Timestamp_').sum()
-
-# calculate 3, 6, 12 month inflows in the basin
-I_3 = I_.shift().rolling(3, min_periods=3).sum()
-I_6 = I_.shift().rolling(6, min_periods=6).sum()
-I_12 = I_.shift().rolling(12, min_periods=12).sum()
-
-# fit gamma distribution for each month of each climate scenario
-params_3 = []
-params_6 = []
-params_12 = []
-for n in range(I_.shape[1]):  # fit gamma for each month and climate scenario
-    params_3.append(I_3.iloc[:, n].groupby(by=I_3.index.month).apply(fit_gamma))
-    params_6.append(I_6.iloc[:, n].groupby(by=I_6.index.month).apply(fit_gamma))
-    params_12.append(I_12.iloc[:, n].groupby(by=I_12.index.month).apply(fit_gamma))
-
-# calculate the resulting SRI values for each climate scenario
-SRI_3 = np.zeros_like(I_3)
-CDF_3 = np.zeros_like(I_3)
-SRI_6 = np.zeros_like(I_6)
-SRI_12 = np.zeros_like(I_12)
-for n in range(I_.shape[1]):  # for climate scenario
-    for m in range(I_.shape[0]):
-        month = I_3.index[m].month
-
-        SRI_3[m, n] = norm.ppf(gamma.cdf(I_3.iloc[m, n], a=params_3[n][month][0], loc=params_3[n][month][1], scale=params_3[n][month][2]))
-
-        SRI_6[m, n] = norm.ppf(gamma.cdf(I_6.iloc[m, n], a=params_6[n][month][0], loc=params_6[n][month][1], scale=params_6[n][month][2]))
-
-        SRI_12[m, n] = norm.ppf(gamma.cdf(I_12.iloc[m, n], a=params_12[n][month][0], loc=params_12[n][month][1], scale=params_12[n][month][2]))
-
-# replace inf and -inf with min and max values
-for n in range(I_.shape[1]):  # for climate scenario
-    SRI_3 = pd.DataFrame(SRI_3, columns=I.columns[1::])
-    SRI_3.iloc[3::, n] = SRI_3.iloc[3::, n].replace(-np.inf, np.NaN)
-    SRI_3.iloc[3::, n] = SRI_3.iloc[3::, n].replace(np.NaN, np.nanmin(SRI_3.iloc[3::, n], axis=0))
-    SRI_3.iloc[3::, n] = SRI_3.iloc[3::, n].replace(np.inf, np.NaN)
-    SRI_3.iloc[:, n] = SRI_3.iloc[:, n].replace(np.NaN, np.nanmax(SRI_3.iloc[3::, n], axis=0))
-
-    SRI_6 = pd.DataFrame(SRI_6, columns=I.columns[1::])
-    SRI_6.iloc[6::, n] = SRI_6.iloc[6::, n].replace(-np.inf, np.NaN)
-    SRI_6.iloc[6::, n] = SRI_6.iloc[6::, n].replace(np.NaN, np.nanmin(SRI_6.iloc[6::, n], axis=0))
-    SRI_6.iloc[6::, n] = SRI_6.iloc[6::, n].replace(np.inf, np.NaN)
-    SRI_6.iloc[:, n] = SRI_6.iloc[:, n].replace(np.NaN, np.nanmax(SRI_6.iloc[6::, n], axis=0))
-
-    SRI_12 = pd.DataFrame(SRI_12, columns=I.columns[1::])
-    SRI_12.iloc[12::, n] = SRI_12.iloc[12::, n].replace(-np.inf, np.NaN)
-    SRI_12.iloc[12::, n] = SRI_12.iloc[12::, n].replace(np.NaN, np.nanmin(SRI_12.iloc[12::, n], axis=0))
-    SRI_12.iloc[12::, n] = SRI_12.iloc[12::, n].replace(np.inf, np.NaN)
-    SRI_12.iloc[:, n] = SRI_12.iloc[:, n].replace(np.NaN, np.nanmax(SRI_12.iloc[12::, n], axis=0))
-
-# convert to dataframe and save in the data folder
-X = pd.DataFrame(I['Timestamp_'])
-X['MY'] = X['Timestamp_'].dt.to_period('M')
-
-# create final SRI-3 dataframe and save to csv
-SRI_3['Timestamp_'] = I_3.index
-SRI_3['MY'] = SRI_3['Timestamp_'].dt.to_period('M')
-Z = X.merge(SRI_3, on='MY', how='inner')
-Z = Z.drop(['Timestamp__x', 'MY', 'Timestamp__y'], axis=1)
-first_column = I_Yeso['Timestamp']
-Z.insert(0, 'Timestamp', first_column)
-# save with original timestamp convention
-Z.to_csv('data/SRI3.csv', index=False)
-
-# create final SRI-6 dataframe and save to csv
-SRI_6['Timestamp_'] = I_6.index
-SRI_6['MY'] = SRI_6['Timestamp_'].dt.to_period('M')
-Z = X.merge(SRI_6, on='MY', how='inner')
-Z = Z.drop(['Timestamp__x', 'MY', 'Timestamp__y'], axis=1)
-first_column = I_Yeso['Timestamp']
-Z.insert(0, 'Timestamp', first_column)
-# save with original timestamp convention
-Z.to_csv('data/SRI6.csv', index=False)
-
-# create final SRI-12 dataframe and save to csv
-SRI_12['Timestamp_'] = I_12.index
-SRI_12['MY'] = SRI_12['Timestamp_'].dt.to_period('M')
-Z = X.merge(SRI_12, on='MY', how='inner')
-Z = Z.drop(['Timestamp__x', 'MY', 'Timestamp__y'], axis=1)
-first_column = I_Yeso['Timestamp']
-Z.insert(0, 'Timestamp', first_column)
-# save with original timestamp convention
-Z.to_csv('data/SRI12.csv', index=False)
-
-#%% plot SRI time series for entire date range
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-# load drought indicators
-SRI_3 = pd.read_csv('data/SRI3.csv')
-SRI_6 = pd.read_csv('data/SRI6.csv')
-SRI_12 = pd.read_csv('data/SRI12.csv')
-zero = np.zeros((len(SRI_3)))
-
-# updated timestamp column to reflecting weekly time steps
-start_date = datetime.datetime.strptime(SRI_3['Timestamp'][0], '%d-%m-%Y')
-week_no = np.array(range(len(SRI_3)))
-t = start_date + week_no * timedelta(days=7)
-
-# specify climate scenarios to plot
-scenarios = [3, 13]
-#scenarios = [1, 11]
-
-# make plots of SRI-3,-6,and -12 for selected climate change scenarios
-for i in scenarios:
-    plt.figure()
-    plt.subplots(3, 1)
-
-    # SRI-3
-    plt.subplot(3, 1, 1)
-    plt.plot(t, SRI_3.iloc[:, i], color='gray')
-    plt.axhline(0, linestyle='--', color='black')
-    plt.axhline(-0.84, color='darkred')
-    plt.fill_between(t, SRI_3.iloc[:, i], zero, where=(SRI_3.iloc[:, i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-    plt.fill_between(t, SRI_3.iloc[:, i], zero, where=(SRI_3.iloc[:, i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-    plt.ylabel('SRI-3')
-    plt.xticks([])
-    plt.ylim([-3, 3])
-    plt.xlim([datetime.date(2020, 4, 1), datetime.date(2040, 8, 1)])
-    plt.title(SRI_3.columns[i])
-
-    # SRI-6
-    plt.subplot(3, 1, 2)
-    plt.plot(t, SRI_6.iloc[:, i], color='gray')
-    plt.axhline(0, linestyle='--', color='black')
-    plt.axhline(-0.84, color='darkred')
-    plt.fill_between(t, SRI_6.iloc[:, i], zero, where=(SRI_6.iloc[:, i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-    plt.fill_between(t, SRI_6.iloc[:, i], zero, where=(SRI_6.iloc[:, i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-    plt.ylabel('SRI-6')
-    plt.xticks([])
-    plt.xlim([datetime.date(2020, 4, 1), datetime.date(2040, 8, 1)])
-    plt.ylim([-3, 3])
-
-    # SRI-12
-    plt.subplot(3, 1, 3)
-    plt.plot(t, SRI_12.iloc[:, i], color='gray')
-    plt.axhline(0, linestyle='--', color='black')
-    plt.axhline(-0.84, color='darkred')
-    plt.fill_between(t, SRI_12.iloc[:, i], zero, where=(SRI_12.iloc[:, i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-    plt.fill_between(t, SRI_12.iloc[:, i], zero, where=(SRI_12.iloc[:, i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-    plt.xlim([datetime.date(2020, 4, 1), datetime.date(2040, 8, 1)])
-    plt.ylim([-3, 3])
-    plt.ylabel('SRI-12')
-    plt.xlabel('Time')
-
-    plt.show()
-
-#%% #%% plot SRI time series for ranges by START and END date
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-# load drought indicators
-SRI_3 = pd.read_csv('data/SRI3.csv')
-SRI_6 = pd.read_csv('data/SRI6.csv')
-SRI_12 = pd.read_csv('data/SRI12.csv')
-k1 = -1.5  # threshold
-
-# updated timestamp column to reflecting weekly time steps
-start_date = datetime.datetime.strptime(SRI_3['Timestamp'][0], '%d-%m-%Y')
-week_no = np.array(range(len(SRI_3)))
-t = start_date + week_no * timedelta(days=7)
-
-# corresponding date indices
-"""
-(a) 2020-2030:
-    "start": "2006-07-12",
-    "end": "2007-12-13",
-(b) 2040-2050:
-    "start": "2009-05-17",
-    "end": "2010-10-18"
-"""
-periods = [[datetime.datetime.strptime("2006-07-12", '%Y-%m-%d'), datetime.datetime.strptime("2007-12-13", '%Y-%m-%d')],
-           [datetime.datetime.strptime("2009-05-17", '%Y-%m-%d'), datetime.datetime.strptime("2010-10-18", '%Y-%m-%d')]]
-periods_index = [[np.where(SRI_3['Timestamp'] == "12-07-2006")[0][0], np.where(SRI_3['Timestamp'] == "13-12-2007")[0][0]],
-           [np.where(SRI_3['Timestamp'] == "17-05-2009")[0][0], np.where(SRI_3['Timestamp'] == "18-10-2010")[0][0]]]
+def apply_params(rolled, params):
+    """SRI = Phi^-1(F)"""
+    out = pd.Series(index=rolled.index, dtype=float)
+    for m in range(1, 13):
+        k = rolled.index.month == m
+        out[k] = norm.ppf(np.minimum(gamma.cdf(rolled[k], *params[m]), 1 - 1e-6))
+    return out
 
 
-# specify climate scenarios to plot
-scenarios = [3, 13]
-scenarios = [1]
-scenarios = (np.arange(15) + 1).tolist()
-week_no = np.arange(len(SRI_3)) % 52 + 1
-
-# make plots of SRI-3,-6,and -12 for selected climate change scenarios
-for i in scenarios:
-    plt.figure()
-    plt.subplots(3, 2)
-    for p in range(len(periods)):
-
-        zero = np.zeros((len(SRI_3.iloc[periods_index[p][0]:periods_index[p][1], 0])))
-        week_no = np.arange(len(t[periods_index[p][0]:periods_index[p][1]])) % 52 + 1
-        AprOct_idx = (week_no == 1) + (week_no == 27)
-
-        # SRI-3
-        plt.subplot(3, 2, p+1)
-        plt.plot(t[periods_index[p][0]:periods_index[p][1]], SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i], color='gray')
-        plt.axhline(0, linestyle='--', color='black')
-        plt.axhline(k1, color='darkred')
-        threshold_exceeded = SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i] <= k1
-        threshold_AprOct = threshold_exceeded[AprOct_idx]
-        threshold_idx = threshold_AprOct[threshold_AprOct == True].index
-        plt.scatter(t[threshold_idx], SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i][threshold_idx], color='k')
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_3.iloc[periods_index[p][0]:periods_index[p][1], i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-        plt.ylabel('SRI-3')
-        plt.xticks([])
-        plt.ylim([-3, 3])
-        plt.xlim(t[periods_index][p])
-
-        # SRI-6
-        plt.subplot(3, 2, p+3)
-        plt.plot(t[periods_index[p][0]:periods_index[p][1]], SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i], color='gray')
-        plt.axhline(0, linestyle='--', color='black')
-        plt.axhline(k1, color='darkred')
-        threshold_exceeded = SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i] <= k1
-        threshold_AprOct = threshold_exceeded[AprOct_idx]
-        threshold_idx = threshold_AprOct[threshold_AprOct == True].index
-        plt.scatter(t[threshold_idx], SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i][threshold_idx], color='k')
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_6.iloc[periods_index[p][0]:periods_index[p][1], i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-        plt.ylabel('SRI-6')
-        plt.xticks([])
-        plt.xlim(t[periods_index][p])
-        plt.ylim([-3, 3])
-
-        # SRI-12
-        plt.subplot(3, 2, p+5)
-        plt.plot(t[periods_index[p][0]:periods_index[p][1]], SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i], color='gray')
-        plt.axhline(0, linestyle='--', color='black')
-        plt.axhline(k1, color='darkred')
-        threshold_exceeded = SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i] <= k1
-        threshold_AprOct = threshold_exceeded[AprOct_idx]
-        threshold_idx = threshold_AprOct[threshold_AprOct == True].index
-        plt.scatter(t[threshold_idx], SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i][threshold_idx], color='k')
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i] >= zero), color='steelblue', alpha=0.8, interpolate=True)
-        plt.fill_between(t[periods_index[p][0]:periods_index[p][1]], SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i], zero, where=(SRI_12.iloc[periods_index[p][0]:periods_index[p][1], i] < zero), color='chocolate', alpha=0.8, interpolate=True)
-        plt.xlim(t[periods_index][p])
-        plt.ylim([-3, 3])
-        plt.ylabel('SRI-12')
-        plt.xlabel('Time')
-
-    plt.suptitle(f'Climate Change Scenario: {SRI_3.columns[i]}')
-    plt.gcf().set_size_inches(11, 4)
-    plt.show()
+def monthly_to_weekly(monthly, out_ts):
+    filled = monthly.bfill()
+    lookup = pd.Series(filled.values, index=filled.index.to_period('M'))
+    return pd.Series(out_ts).dt.to_period('M').map(lookup).values
 
 
+def baseline(series, period):
+    """Months of `series` inside the period's BASELINE_MONTHS range (inclusive)."""
+    first, last = (pd.Period(m, 'M') for m in BASELINE_MONTHS[period])
+    months = series.index.to_period('M')
+    return series[(months >= first) & (months <= last)]
 
-#%% sample contract value output plot
 
-SRI_3 = pd.read_csv('data/SRI3.csv')
-threshold = -0.84
-contract_values = SRI_3
-week_no = contract_values.index % 52
-week_no += 1
-contract_values.iloc[:, 1::] = 50 * (contract_values.iloc[:, 1::] < -0.84)
-index_notAprOct = np.where((contract_values.index % 52 + 1 != 1) & (contract_values.index + 1 % 52 != 27))[0]
-contract_values.iloc[index_notAprOct, 1::] = np.NaN
-contract_values = contract_values.fillna(method='ffill')
-contract_values.set_index('Timestamp', inplace=True)
+def compute_sri(I_mo, scenarios, w, period):
+    rolled = {c: I_mo[c].shift(1).rolling(w, min_periods=w).sum() for c in scenarios}
 
-plt.figure()
-contract_values.plot()
-plt.show()
+    if period == 'A':
+        shared = fit_2p_by_month(baseline(rolled[scenarios[0]], 'A'))
+        params = {c: shared for c in scenarios}
+    else:
+        params = {c: fit_2p_by_month(baseline(rolled[c], 'B')) for c in scenarios}
 
-plt.figure()
-contract_values.iloc[:, 14].plot()
-plt.show()
+    # standard Pywr weekly output
+    out_ts = pd.date_range('2004-04-01', '2098-11-27', freq='7D')
+    cols = {'Timestamp': out_ts.strftime('%d-%m-%Y')}
+    for c in scenarios:
+        cols[c] = monthly_to_weekly(apply_params(rolled[c], params[c]), out_ts)
+    return pd.DataFrame(cols)
+
+
+def main():
+    I_mo, scenarios = build_monthly_inflow()
+    for period in PERIODS_TO_RUN:
+        os.makedirs(OUT_DIR[period], exist_ok=True)
+        for w in WINDOWS:
+            df = compute_sri(I_mo, scenarios, w, period)
+            df.to_csv(os.path.join(OUT_DIR[period], f'SRI{w}.csv'), index=False)
+
+
+if __name__ == '__main__':
+    main()

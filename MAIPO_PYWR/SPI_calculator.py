@@ -1,227 +1,126 @@
-# calculate the SPI at different temporal aggregations in the Maipo basin
+"""
+SPI_calculator_TDP_2paramGamma.py
 
-import pandas as pd
+SPI-3, SPI-6 and SPI-12 for the 36 TDP CMIP6 GCM/SSP scenarios (9 models x 4 SSPs), with a
+2-parameter gamma fit (location fixed at 0), for two baselines:
+
+  PERIOD A -> data/TDP_scenarios_DS_2paramGamma/SPI3.csv, SPI6.csv, SPI12.csv
+      One shared fit per calendar month on 1988-2018
+  PERIOD B -> data/TDP_scenarios_DS_2paramGamma_periodB/SPI3.csv, SPI6.csv, SPI12.csv
+      Each scenario fit per calendar month on its own 2049-2079, applied to that scenario
+
+Precipitation series:
+  basin precipitation = umean of PP_semanal_{model}_{ssp}.csv,
+  weekly, summed to monthly totals (mm).
+
+LOCATION AND INPUTS
+  data/UQM_weap_TempC_new/PP_semanal_{model}_{ssp}.csv
+Update file input paths for new scenarios
+"""
+import os
 import numpy as np
-import datetime
-from datetime import timedelta, date
-from scipy.stats import norm
-from scipy.stats import gamma
-import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.stats import gamma, norm
 
-def fit_gamma(data):
-    params = gamma.fit(data.dropna())  # shape, loc, scale
+# ============================== SETTINGS ==============================
+PROJECT = os.path.dirname(os.path.abspath(__file__)) + '/'
+DATA = PROJECT + 'data/'
 
+PERIODS_TO_RUN = ['A', 'B']        # e.g. ['A'] to write only the Period A files
+WINDOWS = [3, 6, 12]
+
+# inputs (weekly precipitation)
+PRECIP_DIR = DATA + 'UQM_weap_TempC_new/'
+MODELS = ['ACCESS-CM2', 'CNRM-CM6-1', 'INM-CM4-8', 'INM-CM5-0',
+          'MIROC6', 'MIROC-ES2L', 'MPI-ESM1-2-LR', 'MRI-ESM2-0', 'NorESM2-MM']
+EXPERIMENTS = ['ssp126', 'ssp245', 'ssp370', 'ssp585']
+
+# baseline months for the gamma fits (first and last month, inclusive)
+BASELINE_MONTHS = {'A': ('1988-01', '2018-12'),    # shared fit on the first scenario
+                   'B': ('2049-12', '2079-11')}    # each scenario's own fit
+
+# outputs (same folders as the SRI files)
+OUT_DIR = {'A': DATA + 'TDP_scenarios_DS_2paramGamma/',
+           'B': DATA + 'TDP_scenarios_DS_2paramGamma_periodB/'}
+
+
+# ============================== PRECIPITATION SERIES ==============================
+def load_basin_precip(scenario, period):
+    """Weekly basin-average precipitation for one scenario, indexed by week start date."""
+    df = pd.read_csv(PRECIP_DIR + f'PP_semanal_{scenario}.csv')
+    cols = [c for c in df.columns if c not in ('year', 'week')]
+    if period == 'B':
+        cols = [c for c in cols if not c.startswith(('ARR_', 'HUA_')) and '.' not in c]
+    ts = pd.to_datetime(df['year'].astype(str) + df['week'].astype(str).str.zfill(2) + '-1',
+                        format='%Y%W-%w')
+    p = pd.Series(df[cols].mean(axis=1).values, index=ts).sort_index()
+    return p[~p.index.duplicated(keep='first')]
+
+
+def build_monthly_precip(period):
+    """Monthly basin precipitation (mm) for every scenario"""
+    scenarios = [f'{m}_{x}' for m in MODELS for x in EXPERIMENTS]
+    monthly = pd.DataFrame({s: load_basin_precip(s, period).resample('ME').sum() for s in scenarios})
+    return monthly, scenarios                      # 'ME' = month end (pandas >= 2.2)
+
+
+# ============================== SPI ==============================
+def fit_2p_by_month(series):
+    """2-parameter gamma (floc=0) fit for each calendar month"""
+    params = {}
+    for m in range(1, 13):
+        data = series[series.index.month == m].dropna()
+        params[m] = gamma.fit(data, floc=0)
     return params
 
-# Note: for now, I am using the same quantiles from the historical period to calculate SPI!
-path_clima = 'data/UQM_weap_TempC_new/'
-start_hist = 1988
-end_hist = 2018
-locations = pd.read_csv('data/MPC_pr_ACCESS-CM2_ssp126_1986_2100_week_UQM.csv').columns[2::]
 
-# continue this if working to update datafile timestamps
-Timestamp_convert = pd.DataFrame(pd.read_csv('data/YESO.csv')['Timestamp'])
-start_date = datetime.datetime.strptime(Timestamp_convert['Timestamp'][0], '%d-%m-%Y')
-week_no = np.array(range(len(Timestamp_convert)))
-Timestamp_convert.insert(0, 'Timestamp_', start_date + week_no * timedelta(days=7))
-
-# observed data
-observed_data = pd.read_csv(path_clima + 'PP_semanal_ACCESS-CM2_ssp126.csv')
-obs = observed_data.loc[(observed_data['year'] >= start_hist) & (observed_data['year'] <= end_hist)]
-obs.insert(0, 'Date', pd.to_datetime(obs['year'].astype(str) + obs['week'].astype(str).str.zfill(2) + '-1', format='%Y%W-%w'))
-
-models = ['ACCESS-CM2', 'CNRM-CM6-1', 'INM-CM4-8', 'INM-CM5-0',
-          'MIROC6', 'MIROC-ES2L', 'MPI-ESM1-2-LR', 'MRI-ESM2-0', 'NorESM2-MM']
-experiments = ['ssp126', 'ssp245', 'ssp370', 'ssp585']
-
-SPI_3_df = pd.DataFrame()
-SPI_6_df = pd.DataFrame()
-SPI_12_df = pd.DataFrame()
-
-for i, mo in enumerate(models):
-    for j, x in enumerate(experiments):
-        #fig = plt.figure(figsize=(8, 10))
-
-        # load downscaled precipitation
-        I_1 = pd.read_csv(path_clima + f'PP_semanal_{mo}_{x}.csv')
-        I_1.insert(0, 'Timestamp', pd.to_datetime(I_1['year'].astype(str) + I_1['week'].astype(str).str.zfill(2) + '-1', format='%Y%W-%w'))
-        I_1.drop(columns=['year', 'week'], inplace=True)
-
-        # calculate aggregate monthly precipitation in the basin
-        I_ = I_1.resample(rule="M", on='Timestamp').sum()
-        I_ = I_[locations].mean(axis=1)
-
-        # calculate 3, 6, 12 month precipitation in the basin
-        I_3 = I_.shift().rolling(3, min_periods=3).sum()
-        I_6 = I_.shift().rolling(6, min_periods=6).sum()
-        I_12 = I_.shift().rolling(12, min_periods=12).sum()
-
-        # fit gamma distribution to historical period
-        params_3 = I_3.loc[(I_3.index.year >= start_hist) & (I_3.index.year <= end_hist)].groupby(
-            I_3.loc[(I_3.index.year >= start_hist) & (I_3.index.year <= end_hist)].index.month).apply(fit_gamma)
-        params_6 = I_6.loc[(I_6.index.year >= start_hist) & (I_6.index.year <= end_hist)].groupby(
-            I_6.loc[(I_6.index.year >= start_hist) & (I_6.index.year <= end_hist)].index.month).apply(fit_gamma)
-        params_12 = I_12.loc[(I_12.index.year >= start_hist) & (I_12.index.year <= end_hist)].groupby(
-            I_12.loc[(I_12.index.year >= start_hist) & (I_12.index.year <= end_hist)].index.month).apply(fit_gamma)
-
-        # calculate the resulting SPI values for each climate scenario
-        SRI_3 = np.zeros_like(I_3.loc[I_3.index.year > end_hist])
-        SRI_6 = np.zeros_like(I_6.loc[I_3.index.year > end_hist])
-        SRI_12 = np.zeros_like(I_12.loc[I_12.index.year > end_hist])
-
-        # calculate SPI for each month of future period
-        for n, t in enumerate(I_3.loc[I_3.index.year > end_hist].index):
-            month = t.month
-
-            SRI_3[n] = norm.ppf(gamma.cdf(I_3[t], a=params_3[month][0], loc=params_3[month][1],
-                                          scale=params_3[month][2]))
-
-            SRI_6[n] = norm.ppf(gamma.cdf(I_6[t], a=params_6[month][0], loc=params_6[month][1],
-                                          scale=params_6[month][2]))
-
-            SRI_12[n] = norm.ppf(gamma.cdf(I_12[t], a=params_12[month][0], loc=params_12[month][1],
-                                           scale=params_12[month][2]))
-
-        # replace inf and -inf with min and max values
-        SRI_3 = pd.DataFrame(SRI_3, index=I_3.loc[I_3.index.year > end_hist].index)
-        SRI_3 = SRI_3.replace(-np.inf, np.NaN)
-        SRI_3 = SRI_3.replace(np.NaN, np.nanmin(SRI_3))
-        SRI_3 = SRI_3.replace(np.inf, np.NaN)
-        SRI_3 = SRI_3.replace(np.NaN, np.nanmax(SRI_3))
-        SPI_3_df[f'{mo}_{x}'] = SRI_3
-
-        SRI_6 = pd.DataFrame(SRI_6, index=I_6.loc[I_6.index.year > end_hist].index)
-        SRI_6 = SRI_6.replace(-np.inf, np.NaN)
-        SRI_6 = SRI_6.replace(np.NaN, np.nanmin(SRI_6))
-        SRI_6 = SRI_6.replace(np.inf, np.NaN)
-        SRI_6 = SRI_6.replace(np.NaN, np.nanmax(SRI_6))
-        SPI_6_df[f'{mo}_{x}'] = SRI_6
-
-        SRI_12 = pd.DataFrame(SRI_12, index=I_12.loc[I_12.index.year > end_hist].index)
-        SRI_12 = SRI_12.replace(-np.inf, np.NaN)
-        SRI_12 = SRI_12.replace(np.NaN, np.nanmin(SRI_12))
-        SRI_12 = SRI_12.replace(np.inf, np.NaN)
-        SRI_12 = SRI_12.replace(np.NaN, np.nanmax(SRI_12))
-        SPI_12_df[f'{mo}_{x}'] = SRI_12
-
-SPI_3_df.reset_index(inplace=True)
-SPI_6_df.reset_index(inplace=True)
-SPI_12_df.reset_index(inplace=True)
-
-SPI_3_df['Weeks'] = SPI_3_df['Timestamp'].map(lambda x:
-                             pd.date_range(
-                                 start=pd.to_datetime(x),
-                                 end=(pd.to_datetime(x) + pd.offsets.MonthEnd()),
-                                 freq='W'))
-
-X = pd.DataFrame(I_1[I_1['Timestamp'].dt.year > 2018]['Timestamp'])
-X.insert(1, 'MY', X['Timestamp'].dt.to_period('M'))
-
-# save SPI_3
-SPI_3_df.insert(1, 'MY', SPI_3_df['Timestamp'].dt.to_period('M'))
-Z = X.merge(SPI_3_df, on='MY', how='inner')
-weeks = np.array(range(Z.shape[0]))
-Z.insert(0, 'Timestamp', start_date + weeks * timedelta(days=1))
-Z['Timestamp'] = Z['Timestamp'].dt.strftime('%d-%m-%Y')
-Z.drop(['Timestamp_x', 'MY', 'Timestamp_y'], axis=1, inplace=True)
-Z.to_csv('data/SPI3_CMIP6_2019-2099.csv', index=False)
-
-# save SPI_6
-SPI_6_df.insert(1, 'MY', SPI_6_df['Timestamp'].dt.to_period('M'))
-Z = X.merge(SPI_6_df, on='MY', how='inner')
-weeks = np.array(range(Z.shape[0]))
-Z.insert(0, 'Timestamp', start_date + weeks * timedelta(days=1))
-Z['Timestamp'] = Z['Timestamp'].dt.strftime('%d-%m-%Y')
-Z.drop(['Timestamp_x', 'MY', 'Timestamp_y'], axis=1, inplace=True)
-Z.to_csv('data/SPI6_CMIP6_2019-2099.csv', index=False)
-
-# save SPI_12
-SPI_12_df.insert(1, 'MY', SPI_12_df['Timestamp'].dt.to_period('M'))
-Z = X.merge(SPI_12_df, on='MY', how='inner')
-weeks = np.array(range(Z.shape[0]))
-Z.insert(0, 'Timestamp', start_date + weeks * timedelta(days=1))
-Z['Timestamp'] = Z['Timestamp'].dt.strftime('%d-%m-%Y')
-Z.drop(['Timestamp_x', 'MY', 'Timestamp_y'], axis=1, inplace=True)
-Z.to_csv('data/SPI12_CMIP6_2019-2099.csv', index=False)
-
-#%% Plot time series
-
-models = ['ACCESS-CM2', 'NorESM2-MM']
-experiments = ['ssp126', 'ssp585']
-
-for i, mo in enumerate(models):
-    fig = plt.figure(figsize=(15, 6))
-    for j, x in enumerate(experiments):
-        for s, spi in enumerate([3, 6, 12]):
-            if spi == 3:
-                SPI = pd.read_csv('data/SPI3_CMIP6_2019-2099.csv')
-            elif spi == 6:
-                SPI = pd.read_csv('data/SPI6_CMIP6_2019-2099.csv')
-            elif spi == 12:
-                SPI = pd.read_csv('data/SPI12_CMIP6_2019-2099.csv')
-
-            ax = plt.subplot(3, 2, j + (s*2) + 1)
-            plt.plot(SPI['Timestamp'], SPI[f'{mo}_{x}'], color='gray')
-            plt.axhline(0, linestyle='--', color='black')
-            plt.axhline(-0.84, color='darkred')
-            zero = np.zeros(SPI.shape[0])
-            plt.fill_between(SPI['Timestamp'], SPI[f'{mo}_{x}'], zero, where=(SPI[f'{mo}_{x}'] >= zero),
-                             color='steelblue', alpha=0.8, interpolate=True)
-            plt.fill_between(SPI['Timestamp'], SPI[f'{mo}_{x}'], zero, where=(SPI[f'{mo}_{x}'] < zero),
-                             color='chocolate', alpha=0.8, interpolate=True)
-            plt.ylim([-7, 7])
-            plt.xticks(np.array(range(0, len(SPI), 10*52)), np.array(range(2019, 2100, 10)))
-            plt.title(f'SPI-{spi}: {x}')
-
-    plt.suptitle(f'SPI for {mo}')
-    fig.supxlabel('Date')
-    fig.supylabel('SPI')
-    plt.tight_layout()
-    plt.show()
-
-#%% Plot time series
-
-# plot overlapping time series for near and end-of-century planning periods
-
-models = ['ACCESS-CM2', 'NorESM2-MM']
-experiments = ['ssp126', 'ssp585']
-
-for i, mo in enumerate(models):
-    fig = plt.figure(figsize=(15, 6))
-    for j, x in enumerate(experiments):
-        for y, years in enumerate([[2019, 2039], [2079, 2099]]):
-
-            for s, spi in enumerate([3, 6, 12]):
-                ax = plt.subplot(2, 2, j + (y * 2) + 1)
-                plt.axhline(0, linestyle='--', color='black')
-
-                if spi == 3:
-                    SPI = pd.read_csv('data/SPI3_CMIP6_2019-2099.csv')
-                    plt.plot(SPI['Timestamp'], SPI[f'{mo}_{x}'], color='teal', label=f'SPI-{spi}')
-                elif spi == 6:
-                    SPI = pd.read_csv('data/SPI6_CMIP6_2019-2099.csv')
-                    plt.plot(SPI['Timestamp'], SPI[f'{mo}_{x}'], color='dodgerblue', label=f'SPI-{spi}')
-                elif spi == 12:
-                    SPI = pd.read_csv('data/SPI12_CMIP6_2019-2099.csv')
-                    plt.plot(SPI['Timestamp'], SPI[f'{mo}_{x}'], color='midnightblue', alpha=0.8, label=f'SPI-{spi}')
-                # zero = np.zeros(SPI.shape[0])
-                # plt.fill_between(SPI['Timestamp'], SPI[f'{mo}_{x}'], zero, where=(SPI[f'{mo}_{x}'] >= zero),
-                #                  color='steelblue', alpha=0.8, interpolate=True)
-                # plt.fill_between(SPI['Timestamp'], SPI[f'{mo}_{x}'], zero, where=(SPI[f'{mo}_{x}'] < zero),
-                #                  color='chocolate', alpha=0.8, interpolate=True)
-                plt.ylim([-7, 7])
-                plt.xticks(np.array(range(0, len(SPI), 10*52)), np.array(range(2019, 2100, 10)))
-                plt.xlim([(years[0]-2019)*52, (years[1]-2019)*52])
-                plt.title(f'{years[0]}-{years[1]}: {x}')
-
-            #plt.title(f'SPI-{spi}: {x}')
-
-            plt.axhline(-0.84, color='darkred', label='Historical threshold')
-    plt.legend(ncol=2, loc='lower left')
-    plt.suptitle(f'SPI for {mo}')
-    fig.supxlabel('Date')
-    fig.supylabel('SPI')
-    plt.tight_layout()
-    plt.show()
+def apply_params(rolled, params):
+    """SPI = Phi^-1(F)"""
+    out = pd.Series(index=rolled.index, dtype=float)
+    for m in range(1, 13):
+        k = rolled.index.month == m
+        out[k] = norm.ppf(np.minimum(gamma.cdf(rolled[k], *params[m]), 1 - 1e-6))
+    return out
 
 
+def monthly_to_weekly(monthly, out_ts):
+    filled = monthly.bfill()
+    lookup = pd.Series(filled.values, index=filled.index.to_period('M'))
+    return pd.Series(out_ts).dt.to_period('M').map(lookup).values
+
+
+def baseline(series, period):
+    """Months of `series` inside the period's BASELINE_MONTHS range (inclusive)."""
+    first, last = (pd.Period(m, 'M') for m in BASELINE_MONTHS[period])
+    months = series.index.to_period('M')
+    return series[(months >= first) & (months <= last)]
+
+
+def compute_spi(P_mo, scenarios, w, period):
+    rolled = {c: P_mo[c].shift(1).rolling(w, min_periods=w).sum() for c in scenarios}
+
+    if period == 'A':
+        shared = fit_2p_by_month(baseline(rolled[scenarios[0]], 'A'))
+        params = {c: shared for c in scenarios}
+    else:
+        params = {c: fit_2p_by_month(baseline(rolled[c], 'B')) for c in scenarios}
+
+    # standard Pywr weekly output
+    out_ts = pd.date_range('2004-04-01', '2098-11-27', freq='7D')
+    cols = {'Timestamp': out_ts.strftime('%d-%m-%Y')}
+    for c in scenarios:
+        cols[c] = monthly_to_weekly(apply_params(rolled[c], params[c]), out_ts)
+    return pd.DataFrame(cols)
+
+
+def main():
+    for period in PERIODS_TO_RUN:
+        P_mo, scenarios = build_monthly_precip(period)
+        os.makedirs(OUT_DIR[period], exist_ok=True)
+        for w in WINDOWS:
+            df = compute_spi(P_mo, scenarios, w, period)
+            df.to_csv(os.path.join(OUT_DIR[period], f'SPI{w}.csv'), index=False)
+
+
+if __name__ == '__main__':
+    main()
